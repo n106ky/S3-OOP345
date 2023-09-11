@@ -6,7 +6,7 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 10
+   Completed on 2023 SEP 11
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -17,9 +17,9 @@ using namespace std;
 
 double g_discount;
 double g_taxrate;
+static int counter = 1;
 
 namespace sdds {
-
    RideRequest::RideRequest() {}
    void RideRequest::read(istream& is) {
       char tempDiscount{};
