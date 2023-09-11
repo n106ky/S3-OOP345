@@ -24,20 +24,14 @@ namespace sdds {
    RideRequest::RideRequest() {}
    void RideRequest::read(istream& is) {
       char tempDiscount{};
-      char tempRideDesc[100]{};
+      // char *tempRideSesc{};
       if (is.good()) {
          is.getline(customerName, CUST_NAME_SIZE, ',');
-         is.getline(tempRideDesc, 100, ',');
+         is.getline(rideDesc, RIDE_DESC_SIZE, ',');
          is >> priceOfRide;
          is.ignore();
          is >> tempDiscount;
       }
-      if (rideDesc) {
-         delete[] rideDesc;
-      }
-      rideDesc = new char[strlen(tempRideDesc) + 1];
-      strcpy(rideDesc, tempRideDesc);
-
       if (tempDiscount == 'Y') {
          isDiscounted = true;
       }
@@ -63,8 +57,5 @@ namespace sdds {
       else {
          cout << "No Ride Request" << endl;
       }
-   }
-   RideRequest::~RideRequest() {
-      delete[] rideDesc;
    }
 }

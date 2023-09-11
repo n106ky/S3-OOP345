@@ -17,18 +17,17 @@ extern double g_taxrate;
 namespace sdds {
 
    const int CUST_NAME_SIZE = 10;   // Included NULL terminator
-   // const int RIDE_DESC_SIZE = 25;   // Included NULL terminator
+   const int RIDE_DESC_SIZE = 100;   // Included NULL terminator
 
    class RideRequest {
       char customerName[CUST_NAME_SIZE]{};
-      char* rideDesc{ nullptr };
+      char rideDesc[RIDE_DESC_SIZE]{};
       double priceOfRide{};         // Not yet taxed
       bool isDiscounted{};
    public:
       RideRequest();
       void read(std::istream& is);
       void display();
-      ~RideRequest();
    };
 }
 
