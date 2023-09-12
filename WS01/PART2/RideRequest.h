@@ -21,9 +21,8 @@ namespace sdds {
 
    class RideRequest {
       char customerName[CUST_NAME_SIZE]{};
-      // const char* rideDesc{};
       char* rideDesc{};
-      double priceOfRide{};         // Not yet taxed
+      double priceOfRide{};
       bool isDiscounted{};
    public:
       RideRequest();

@@ -32,7 +32,10 @@ namespace sdds {
          is.ignore();
          is >> tempDiscount;
       }
-
+      if (rideDesc) {
+         delete[] rideDesc;
+         rideDesc = nullptr;
+      }
       rideDesc = new char[tempRideDesc.length()+1];
       strcpy(rideDesc, tempRideDesc.c_str());
 
