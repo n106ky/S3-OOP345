@@ -12,26 +12,36 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <iomanip>
+#include <cstring>
 #include <string>
 #include "RideRequest.h"
 using namespace std;
 
 double g_discount;
 double g_taxrate;
-static int counter = 1;
 
 namespace sdds {
    RideRequest::RideRequest() {}
    void RideRequest::read(istream& is) {
       char tempDiscount{};
-      // char *tempRideSesc{};
+      string tempRideDesc{};
       if (is.good()) {
          is.getline(customerName, CUST_NAME_SIZE, ',');
-         is.getline(rideDesc, RIDE_DESC_SIZE, ',');
+         getline(is, tempRideDesc, ',');  // is.getline(rideDesc, RIDE_DESC_SIZE, ',');
          is >> priceOfRide;
          is.ignore();
          is >> tempDiscount;
       }
+
+      rideDesc = new char[tempRideDesc.length()+1];
+      strcpy(rideDesc, tempRideDesc.c_str());
+
+      // rideDesc = tempRideDesc.c_str(); // shallow copying
+      //for (int i = 0; i < tempRideDesc.length(); i++) {
+      //   rideDesc[i] = tempRideDesc.c_str()[i];
+      //}
+      //rideDesc[tempRideDesc.length()] = '\0';
+
       if (tempDiscount == 'Y') {
          isDiscounted = true;
       }
@@ -40,6 +50,7 @@ namespace sdds {
       }
    }
    void RideRequest::display() {
+      static int counter = 1;
       cout
          << left << setw(2) << counter++ << ". ";
       if (customerName[0] != '\0') {
@@ -57,5 +68,30 @@ namespace sdds {
       else {
          cout << "No Ride Request" << endl;
       }
+   }
+   RideRequest::operator bool() const {
+      return (customerName && customerName[0] != '\0');
+   }
+   RideRequest::RideRequest(const RideRequest& src) {
+      *this = src;
+   }
+   RideRequest& RideRequest::operator=(const RideRequest& src) {
+      if (this != &src) {
+         if (src) {
+            if (rideDesc) {
+               delete[] rideDesc;
+               rideDesc = nullptr;
+            }
+            rideDesc = new char[strlen(src.rideDesc) + 1];
+            strcpy(rideDesc, src.rideDesc);
+            strcpy(customerName, src.customerName);
+            priceOfRide = src.priceOfRide;
+            isDiscounted = src.isDiscounted;
+         }
+      }
+      return *this;
+   }
+   RideRequest::~RideRequest() {
+      delete[] rideDesc;
    }
 }
