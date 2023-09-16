@@ -1,6 +1,3 @@
-#ifndef SDDS_RIDEREQUEST_H
-#define SDDS_RIDEREQUEST_H
-
 /*
    OOP345 NFF WS01
    PROF. HONG HUANG
@@ -9,8 +6,12 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 11
+   Completed on 2023 SEP 12
 */
+
+#ifndef SDDS_RIDEREQUEST_H
+#define SDDS_RIDEREQUEST_H
+
 extern double g_discount; // HAS TO DEFINE IT OUTSIDE SDDS because w1_p2 does not adopt namespace sdds
 extern double g_taxrate;
 
@@ -26,7 +27,7 @@ namespace sdds {
       bool isDiscounted{};
    public:
       RideRequest();
-      void read(std::istream& is);
+      void read(std::istream& is); 
       void display();
       operator bool() const;
       RideRequest(const RideRequest& src);

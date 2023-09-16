@@ -6,7 +6,7 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 11
+   Completed on 2023 SEP 12
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -31,25 +31,24 @@ namespace sdds {
          is >> priceOfRide;
          is.ignore();
          is >> tempDiscount;
-      }
-      if (rideDesc) {
-         delete[] rideDesc;
-         rideDesc = nullptr;
-      }
-      rideDesc = new char[tempRideDesc.length()+1];
-      strcpy(rideDesc, tempRideDesc.c_str());
-
-      // rideDesc = tempRideDesc.c_str(); // shallow copying
-      //for (int i = 0; i < tempRideDesc.length(); i++) {
-      //   rideDesc[i] = tempRideDesc.c_str()[i];
-      //}
-      //rideDesc[tempRideDesc.length()] = '\0';
-
-      if (tempDiscount == 'Y') {
-         isDiscounted = true;
-      }
-      else {
-         isDiscounted = false;
+         // is.ignore(); // ">>" will automatically skip whitespace characters, including newline characters ('\n')
+         if (rideDesc) {
+            delete[] rideDesc;
+            rideDesc = nullptr;
+         }
+         // rideDesc = tempRideDesc.c_str(); // shallow copying
+         //for (int i = 0; i < tempRideDesc.length(); i++) {
+         //   rideDesc[i] = tempRideDesc.c_str()[i];
+         //}
+         //rideDesc[tempRideDesc.length()] = '\0';
+         rideDesc = new char[tempRideDesc.length() + 1];
+         strcpy(rideDesc, tempRideDesc.c_str());
+         if (tempDiscount == 'Y') {
+            isDiscounted = true;
+         }
+         else if (tempDiscount == 'N') {
+            isDiscounted = false;
+         }
       }
    }
    void RideRequest::display() {
