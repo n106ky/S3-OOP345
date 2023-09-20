@@ -6,7 +6,7 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 18
+   Completed on 2023 SEP 20
 */
 
 #ifndef SDDS_AIRPORTMODELS_H
@@ -21,16 +21,15 @@ namespace sdds {
       std::string ap_country{};
       double ap_lat{};
       double ap_long{};
-      void read(const char* filename);
       std::ostream& write(std::ostream& os) const;
-      static int ap_count;
    };
    std::ostream& operator<<(std::ostream& os, const Airport& rA);
 
    ////////////////////////////////////////////////////////////
 
-   class AirportLog:public Airport { // manages a collection of airports
+   class AirportLog{ // : public Airport, manages a collection of airports
       Airport* m_airport{}; // dynamic array of Airport objects and keep a count of how many are being stored.
+      static int ap_count;
    public:
       AirportLog();
       AirportLog(const char* filename);
@@ -45,13 +44,12 @@ namespace sdds {
       // operator bool();
 
       // METHODS:
-      //void read(const char* filename);
+      void read(const char* filename);
       void addAirport(const Airport& ap);
       AirportLog& findAirport(const std::string& state, const std::string& country);
       AirportLog& operator[](size_t ap);
       operator size_t();
    };
-
 }
 
 
