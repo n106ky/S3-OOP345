@@ -21,7 +21,9 @@ namespace sdds {
       std::string ap_country{};
       double ap_lat{};
       double ap_long{};
+      void read(const char* filename);
       std::ostream& write(std::ostream& os) const;
+      static int ap_count;
    };
    std::ostream& operator<<(std::ostream& os, const Airport& rA);
 
@@ -29,7 +31,6 @@ namespace sdds {
 
    class AirportLog:public Airport { // manages a collection of airports
       Airport* m_airport{}; // dynamic array of Airport objects and keep a count of how many are being stored.
-      // static int ap_count = 0;
    public:
       AirportLog();
       AirportLog(const char* filename);
@@ -44,7 +45,7 @@ namespace sdds {
       // operator bool();
 
       // METHODS:
-      void read(const char* filename);
+      //void read(const char* filename);
       void addAirport(const Airport& ap);
       AirportLog& findAirport(const std::string& state, const std::string& country);
       AirportLog& operator[](size_t ap);

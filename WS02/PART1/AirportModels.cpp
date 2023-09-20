@@ -29,15 +29,38 @@ namespace sdds{
       }
       return os;
    }
+   void Airport::read(const char* filename) {
+      ifstream inFile(filename);
+      if (!inFile.is_open()) {
+         cout << "Cannot open file!";
+      }
+      else {
+         string firstline;
+         getline(inFile, firstline); // Skip the first line
+
+         while (inFile) {
+            getline(inFile, ap_code, ',');
+            getline(inFile, ap_name, ',');
+            getline(inFile, ap_city, ',');
+            getline(inFile, ap_state, ',');
+            getline(inFile, ap_country, ',');
+            inFile >> ap_lat;
+            inFile >> ap_long;
+         }
+      }
+   }
    ostream& operator<< (ostream & os, const Airport & rA) {
       return rA.write(os);
    }
-
+   int Airport::ap_count = 0;
 ////////////////////////////////////////////////////////////////
       // CONSTRUCTORS:
-   AirportLog::AirportLog() {}
+   AirportLog::AirportLog() {
+      ap_count++;
+      cout << "count: " << ap_count << endl;
+   }
    AirportLog::AirportLog(const char* filename) {
-      read(filename);
+      m_airport->read(filename);
    }
 
    // RULE OF FIVE:
@@ -57,62 +80,36 @@ namespace sdds{
       return *this;
    }
    AirportLog::AirportLog(AirportLog&& src) noexcept{
-
+      *this = move(src);
    }
    AirportLog& AirportLog::operator=(AirportLog&& src) noexcept {
-
+      if (this != &src) {
+         // delete[] xxx;
+         ap_code = src.ap_code;
+         //src.ap_code = nullptr;
+         ap_name = src.ap_name;
+         //src.ap_name = nullptr;
+         ap_city = src.ap_city;
+         //src.ap_city = nullptr;
+         ap_state = src.ap_state;
+         //src.ap_state = nullptr;
+         ap_country = src.ap_country;
+         //src.ap_country = nullptr;
+         ap_lat = src.ap_lat;
+         src.ap_lat = 0;
+         ap_long = src.ap_long;
+         src.ap_long = 0;
+      }
       return *this;
    }
-
    //AirportLog::operator bool() {
    //   return 1;
    //}
 
-   // Move constr / assign
-   /*
-   Playdoh(Playdoh&& src) {
-      cout << "Playdoh MoveConstr" << endl;
-      *this = std::move(src); // note the move call
-   }
-
-   Playdoh& operator=(Playdoh&& src) {
-      cout << "Playdoh MoveA" << endl;
-      if (this != &src) {
-         delete[] colour;
-         colour = src.colour;
-         src.colour = nullptr;
-         weight = src.weight;
-         src.weight = 0;
-      }
-      return *this;
-   }
-   */
-   AirportLog::~AirportLog() {
-
-   }
+   AirportLog::~AirportLog() {}
 
    // METHODS:
-   void AirportLog::read(const char* filename) {
-      ifstream inFile(filename);
-      if (!inFile.is_open()) {
-         cout << "Cannot open file!";
-      }
-      else {
-         string firstline;
-         getline(inFile, firstline); // Skip the first line
 
-         while (inFile) {
-            getline(inFile, ap_code, ',');
-            getline(inFile, ap_name, ',');
-            getline(inFile, ap_city, ',');
-            getline(inFile, ap_state, ',');
-            getline(inFile, ap_country, ',');
-            inFile>> ap_lat;
-            inFile >> ap_long;
-         }
-      }
-
-   }
    void AirportLog::addAirport(const Airport& ap) {
 
    }
