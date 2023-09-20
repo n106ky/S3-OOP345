@@ -26,6 +26,7 @@ namespace sdds{
             << right << setw(20) << setfill('.') << "Country : " << left << setw(30) << ap_country << endl
             << right << setw(20) << setfill('.') << "Latitude : " << left << setw(30) << ap_lat << endl
             << right << setw(20) << setfill('.') << "Longitude : " << left << setw(30) << ap_long << endl;
+         cout << endl; // DELETE THIS LINE AFTER
       }
       return os;
    }
@@ -34,31 +35,51 @@ namespace sdds{
    }
    int AirportLog::ap_count = 0;
 ////////////////////////////////////////////////////////////////
-      // CONSTRUCTORS:
+   // CONSTRUCTORS:
    AirportLog::AirportLog() {}
+
    AirportLog::AirportLog(const char* filename) {
-      //read(filename);
-      Airport a;
+      cout << "Constructing a log..." << endl;
+
       ifstream inFile(filename);
+
       if (!inFile.is_open()) {
-         cout << "Cannot open file!";
+         cout << "Cannot open file!" << endl;
       }
       else {
-         string firstline;
-         getline(inFile, firstline); // Skip the first line
+         cout << "File opened successfully!" << endl;
 
-         while (inFile) {
-            getline(inFile, a.ap_code, ',');
-            getline(inFile, a.ap_name, ',');
-            getline(inFile, a.ap_city, ',');
-            getline(inFile, a.ap_state, ',');
-            getline(inFile, a.ap_country, ',');
-            inFile >> a.ap_lat;
-            inFile >> a.ap_long;
+         string lines;
+         while (getline(inFile,lines)) {
+            ap_count++;
          }
+         cout << "Airport count: " << ap_count -1 << endl; // Skip the first line: 322
+
+         // Dynamically allocate size of the airport array
+         Airport* m_airport = new Airport[ap_count - 1];
+
+         // Re-read the file
+         inFile.clear();
+         inFile.seekg(0);
+
+         // Skip the first line
+         string firstline;
+         getline(inFile, firstline); 
+
+         for (int i = 0; i < ap_count -1 ; i++) {
+            getline(inFile, m_airport[i].ap_code, ',');
+            getline(inFile, m_airport[i].ap_name, ',');
+            getline(inFile, m_airport[i].ap_city, ',');
+            getline(inFile, m_airport[i].ap_state, ',');
+            getline(inFile, m_airport[i].ap_country, ',');
+            inFile >> m_airport[i].ap_lat;
+            inFile.ignore();
+            inFile >> m_airport[i].ap_long;
+            inFile.ignore();
+            m_airport[i].write(cout);
+         }
+         inFile.close();
       }
-      inFile.close();
-      
    }
 
    // RULE OF FIVE:
@@ -85,7 +106,9 @@ namespace sdds{
    //   return ???;
    //}
 
-   AirportLog::~AirportLog() {}
+   AirportLog::~AirportLog() {
+      delete[] m_airport;
+   }
 
    // METHODS:
    //void AirportLog::read(const char* filename) {
