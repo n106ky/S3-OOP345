@@ -6,7 +6,7 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 20
+   Completed on 2023 SEP 21
 */
 
 #ifndef SDDS_AIRPORTMODELS_H
@@ -29,7 +29,7 @@ namespace sdds {
 
    class AirportLog{ // : public Airport, manages a collection of airports
       Airport* m_airport{}; // dynamic array of Airport objects and keep a count of how many are being stored.
-      static int ap_count;
+      int ap_count; // static
    public:
       AirportLog();
       AirportLog(const char* filename);
@@ -37,18 +37,17 @@ namespace sdds {
       // RULE OF FIVE:
       AirportLog(const AirportLog& src);
       AirportLog& operator=(const AirportLog& src);
-      AirportLog(AirportLog&& src)noexcept;
-      AirportLog& operator=(AirportLog&& src)noexcept;
+      //AirportLog(AirportLog&& src)noexcept;
+      //AirportLog& operator=(AirportLog&& src)noexcept;
       ~AirportLog();
-
-      // operator bool();
 
       // METHODS:
       void read(const char* filename);
       void addAirport(const Airport& ap);
       AirportLog& findAirport(const std::string& state, const std::string& country);
-      AirportLog& operator[](size_t ap);
+      Airport operator[](size_t index);
       operator size_t();
+      //operator bool();
    };
 }
 
