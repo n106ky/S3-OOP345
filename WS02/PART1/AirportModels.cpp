@@ -18,7 +18,6 @@ using namespace std;
 namespace sdds{
    
    ostream& Airport::write(ostream& os) const {
-      // empty check
       if (os) {
          if (ap_code.empty() || ap_code == "") {
             cout << "Empty Airport";
@@ -102,29 +101,12 @@ namespace sdds{
                delete[] m_airport;
                m_airport = nullptr;
             }
-
             // DMA
             m_airport = new Airport[src.ap_count];
 
             // FOR-loop to assign
             for (size_t i = 0; i < src.ap_count; i++) {
-               // Version I:
-               m_airport[i].ap_code = src.m_airport[i].ap_code;
-               m_airport[i].ap_name = src.m_airport[i].ap_name;
-               m_airport[i].ap_city = src.m_airport[i].ap_city;
-               m_airport[i].ap_state = src.m_airport[i].ap_state;
-               m_airport[i].ap_country = src.m_airport[i].ap_country;
-               m_airport[i].ap_lat = src.m_airport[i].ap_lat;
-               m_airport[i].ap_long = src.m_airport[i].ap_long;
-
-               // Version II:
-               //!src.m_airport->ap_code.empty() ? m_airport->ap_code = src.m_airport->ap_code : m_airport->ap_code = nullptr;
-               //!src.m_airport->ap_name.empty() ? m_airport->ap_name = src.m_airport->ap_name : m_airport->ap_name = nullptr;
-               //!src.m_airport->ap_city.empty() ? m_airport->ap_city = src.m_airport->ap_city : m_airport->ap_city = nullptr;
-               //!src.m_airport->ap_state.empty() ? m_airport->ap_state = src.m_airport->ap_state : m_airport->ap_state = nullptr;
-               //!src.m_airport->ap_country.empty() ? m_airport->ap_country = src.m_airport->ap_country : m_airport->ap_country = nullptr;
-               //src.m_airport->ap_lat != 0 ? m_airport->ap_lat = src.m_airport->ap_lat : m_airport->ap_lat = 0;
-               //src.m_airport->ap_long != 0 ? m_airport->ap_long = src.m_airport->ap_long : m_airport->ap_long = 0;
+               m_airport[i] = src.m_airport[i];
             }
          }
       }
@@ -146,15 +128,21 @@ namespace sdds{
    }
 
    // METHODS:
-   void AirportLog::addAirport(const Airport& ap) {
-      Airport* temp_ap = new Airport[ap_count++];
-
-      for (size_t i = 0; i < ap_count; i++) {
+   void AirportLog::addAirport(const Airport& src) {
+      // cout << "AP COUNT: " << ap_count << endl;
+      int num = ap_count + 1;
+      Airport* temp_ap = new Airport[ap_count + 1]; // Cannot use ++ here
+      size_t i = 0;
+      for (i = 0; i < ap_count; i++) {
          temp_ap[i] = m_airport[i];
       }
-      temp_ap[ap_count - 1] = ap;
+      temp_ap[i] = src;
 
+      //m_airport = new Airport[ap_count + 1];
+      // delete[] m_airport;
       m_airport = temp_ap;
+      // delete[] temp_ap;
+      ap_count++; // must have or it cannot store anything
    }
 
    AirportLog& AirportLog::findAirport(const string& state, const string& country) {
@@ -177,17 +165,10 @@ namespace sdds{
             ap = m_airport[index];
          }
       }
-      //else {
-      //   cout << "Empty airport in index function" << endl;
-      //}
       return ap;
    }
 
    AirportLog::operator size_t() {
       return ap_count;
    }
-
-   //AirportLog::operator bool() {
-   //   return !(m_airport->ap_code.empty() && m_airport->ap_name.empty());
-   //}
 }
