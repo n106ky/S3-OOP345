@@ -6,7 +6,7 @@
    kchan151@myseneca.ca
 
    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
-   Completed on 2023 SEP 21
+   Completed on 2023 SEP 22
 */
 
 #include <iostream>
@@ -24,13 +24,13 @@ namespace sdds{
          }
          else {
          cout
-            << right << setw(20) << setfill('.') << "Airport Code : " << left << setw(30) << ap_code << endl
-            << right << setw(20) << setfill('.') << "Airport Name : " << left << setw(30) << ap_name << endl
-            << right << setw(20) << setfill('.') << "City : " << left << setw(30) << ap_city << endl
-            << right << setw(20) << setfill('.') << "State : " << left << setw(30) << ap_state << endl
-            << right << setw(20) << setfill('.') << "Country : " << left << setw(30) << ap_country << endl
-            << right << setw(20) << setfill('.') << "Latitude : " << left << setw(30) << ap_lat << endl
-            << right << setw(20) << setfill('.') << "Longitude : " << left << setw(30) << ap_long << endl;
+            << right << setw(20) << setfill('.') << "Airport Code" << " : " << left << setw(30) << ap_code << endl
+            << right << setw(20) << setfill('.') << "Airport Name" << " : " << left << setw(30) << ap_name << endl
+            << right << setw(20) << setfill('.') << "City" << " : " << left << setw(30) << ap_city << endl
+            << right << setw(20) << setfill('.') << "State" << " : " << left << setw(30) << ap_state << endl
+            << right << setw(20) << setfill('.') << "Country" << " : " << left << setw(30) << ap_country << endl
+            << right << setw(20) << setfill('.') << "Latitude" << " : " << left << setw(30) << ap_lat << endl
+            << right << setw(20) << setfill('.') << "Longitude" << " : " << left << setw(30) << ap_long << endl;
          }
       }
          return os;
@@ -55,7 +55,7 @@ namespace sdds{
       else {
          // cout << "File opened successfully!" << endl;
 
-         string lines;
+         string lines{};
          while (getline(inFile,lines)) {
             ap_count++;
          }
@@ -70,10 +70,10 @@ namespace sdds{
          inFile.seekg(0);
 
          // Skip the first line
-         string firstline;
+         string firstline{};
          getline(inFile, firstline); 
 
-         for (int i = 0; i < ap_count; i++) {
+         for (size_t i = 0; i < ap_count; i++) {
             getline(inFile, m_airport[i].ap_code, ',');
             getline(inFile, m_airport[i].ap_name, ',');
             getline(inFile, m_airport[i].ap_city, ',');
@@ -95,7 +95,7 @@ namespace sdds{
    }
    AirportLog& AirportLog::operator=(const AirportLog& src) {
       if (this != &src) {
-         if (src.m_airport != nullptr) 
+         // if (src.m_airport != nullptr) 
          {
             if (m_airport) {
                delete[] m_airport;
@@ -130,31 +130,34 @@ namespace sdds{
    // METHODS:
    void AirportLog::addAirport(const Airport& src) {
       // cout << "AP COUNT: " << ap_count << endl;
-      int num = ap_count + 1;
       Airport* temp_ap = new Airport[ap_count + 1]; // Cannot use ++ here
       size_t i = 0;
       for (i = 0; i < ap_count; i++) {
          temp_ap[i] = m_airport[i];
       }
       temp_ap[i] = src;
-
-      //m_airport = new Airport[ap_count + 1];
-      // delete[] m_airport;
+      delete[] m_airport;
       m_airport = temp_ap;
       // delete[] temp_ap;
-      ap_count++; // must have or it cannot store anything
+      ap_count++; // must have or it cannot store
    }
 
-   AirportLog& AirportLog::findAirport(const string& state, const string& country) {
-      AirportLog* aLog{};
-      if (!(state.empty()&&country.empty())){ // if empty, no need to find
+   AirportLog AirportLog::findAirport(const string& state, const string& country) {
+      AirportLog aLog{};
+      size_t found = 0;
+      // if (!(state.empty()&&country.empty())){ // if empty, no need to find
          for (size_t i = 0; i < ap_count; i++) {
             if (state == m_airport[i].ap_state && country == m_airport[i].ap_country) {
-               aLog->addAirport(m_airport[i]);
+               found++;
             }
          }
-      }
-      return *aLog;
+         aLog.m_airport = new Airport[found];
+         for (size_t i = 0; i < ap_count; i++) {
+            if (state == m_airport[i].ap_state && country == m_airport[i].ap_country) {
+               aLog.addAirport(m_airport[i]);
+            }
+         }
+      return aLog;
    }
 
    Airport AirportLog::operator[](size_t index) { // Cannot &, because it need to copy?
@@ -172,3 +175,4 @@ namespace sdds{
       return ap_count;
    }
 }
+

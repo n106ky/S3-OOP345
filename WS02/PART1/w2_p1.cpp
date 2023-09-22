@@ -44,8 +44,6 @@ int main(int argc, char** argv)
         return 1;
     }
 
-
-
     printHeader("Empty Airport Log entries");
 
     sdds::AirportLog alog1;
@@ -87,7 +85,7 @@ int main(int argc, char** argv)
     std::cout << alog1[size_t(alog1) - 1] << std::endl;
 
     printHeader("Find specific state's airports");
-    //std::cout << alog2.findAirport("NJ", "USA");
+    // std::cout << alog2.findAirport("NJ", "USA");
     sdds::AirportLog found = alog2.findAirport("AK", "USA");
     std::cout << "Number of matches found: " << size_t(found) << std::endl;
     std::cout << "First match found:\n" << found[0] << std::endl;
