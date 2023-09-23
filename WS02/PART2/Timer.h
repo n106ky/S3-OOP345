@@ -11,13 +11,13 @@
 
 #ifndef SDDS_TIMER_H
 #define SDDS_TIMER_H
+#include <chrono>
 
 namespace sdds {
    class Timer {
-
-   public:
       std::chrono::steady_clock::time_point start_time;
       std::chrono::steady_clock::time_point end_time;
+   public:
       void start();
       long long stop();
    };
