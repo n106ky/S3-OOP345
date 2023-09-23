@@ -57,7 +57,7 @@ namespace sdds{
          ap_count--; // Skip the first line
          
          // Dynamically allocate size of the airport array
-         m_airport = new Airport[ap_count]; // NO AIRPORT*
+         m_airport = new Airport[ap_count];
 
          // Re-read the file
          inFile.clear();
@@ -74,9 +74,9 @@ namespace sdds{
             getline(inFile, m_airport[i].ap_state, ',');
             getline(inFile, m_airport[i].ap_country, ',');
             inFile >> m_airport[i].ap_lat;
-            inFile.ignore();
+            inFile.ignore(); // ','
             inFile >> m_airport[i].ap_long;
-            inFile.ignore();
+            inFile.ignore(); // '\n'
          }
          inFile.close();
       }
@@ -87,7 +87,6 @@ namespace sdds{
       *this = src;
    }
    AirportLog& AirportLog::operator=(const AirportLog& src) {
-      // cout << "Copy Assignment Src.ap_count: " << src.ap_count << endl;
       if (this != &src) {
             if (m_airport) {
                delete[] m_airport;
@@ -96,7 +95,7 @@ namespace sdds{
  
             // DMA
             ap_count = src.ap_count;
-            m_airport = new Airport[ap_count];
+            m_airport = new Airport[ap_count]; // becareful: NOT Airport*
 
             // FOR-loop to assign
             for (size_t i = 0; i < src.ap_count; i++) {
@@ -125,7 +124,7 @@ namespace sdds{
 
    // METHODS:
    void AirportLog::addAirport(const Airport& src) {
-      Airport* temp_ap = new Airport[ap_count + 1]; // Cannot use ++ here
+      Airport* temp_ap = new Airport[ap_count + 1]; // ap_count++ Doesn't work.
       size_t i = 0;
       for (i = 0; i < ap_count; i++) {
          temp_ap[i] = m_airport[i];
@@ -137,10 +136,10 @@ namespace sdds{
    }
 
    AirportLog AirportLog::findAirport(const string& state, const string& country) const {
-      AirportLog aLog{};
+      AirportLog aLog{};  // locally generated, can only return by value "AirportLog" instead of "AirportLog&".
          for (size_t i = 0; i < ap_count; i++) {
             if (state == m_airport[i].ap_state && country == m_airport[i].ap_country) {
-               aLog.addAirport(m_airport[i]);
+               aLog.addAirport(m_airport[i]); // resize in addAirport(), no need to count numbers found and to DMA.
             }
          }
       return aLog;
@@ -153,7 +152,7 @@ namespace sdds{
             ap = m_airport[index];
          }
       }
-      return ap;
+      return ap; // m_airport[index]; Exception thrown : read access violation.
    }
 
    AirportLog::operator size_t() {

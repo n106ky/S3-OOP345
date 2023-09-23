@@ -13,7 +13,7 @@
 #define SDDS_AIRPORTMODELS_H
 
 namespace sdds {
-   struct Airport { // stores data about a single airport
+   struct Airport {           // stores data about a single airport
       std::string ap_code{};
       std::string ap_name{};
       std::string ap_city{};
@@ -27,9 +27,9 @@ namespace sdds {
 
    ////////////////////////////////////////////////////////////
 
-   class AirportLog{ // : public Airport, manages a collection of airports
-      Airport* m_airport{}; // dynamic array of Airport objects and keep a count of how many are being stored.
-      size_t ap_count{}; // size_t? static: every airport log will share the same number, and every airportLog is different, therefore no need.
+   class AirportLog{          // Manages a collection of airports
+      Airport* m_airport{};   // dynamic array of Airport objects and keep a count of how many are being stored.
+      size_t ap_count{};      // non-static: every log will then share the same airport number, in fact they should be different, therefore not appropriate
    public:
       AirportLog();
       AirportLog(const char* filename);
@@ -44,7 +44,7 @@ namespace sdds {
       // METHODS:
       void read(const char* filename);
       void addAirport(const Airport& src);
-      AirportLog findAirport(const std::string& state, const std::string& country) const; // locally generated, only can return by value. It will lost
+      AirportLog findAirport(const std::string& state, const std::string& country) const;
       Airport operator[](size_t index);
       operator size_t();
    };
