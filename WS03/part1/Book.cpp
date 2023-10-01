@@ -43,7 +43,7 @@ namespace sdds {
          os << setw(56) << right << oss.str();
 
          os << " | " << "(";
-         os << setw(15) << left << oss2.str();
+         os << setw(14) << left << oss2.str();
       }
       else {
          os << "| Invalid book data";
