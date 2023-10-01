@@ -52,14 +52,19 @@ namespace sdds {
          }
       }
 
-      // *** PART II UPDATES ***:
-      // *** PROTECTED INSTANCE MEMBERS ***:
-      //T& operator[]() {
-
-      //}
-      //void incrSize() {
-
-      //}
+      // PART II:
+      T& operator[](size_t index) {
+         if (index >= m_size) {
+            std::cout << "ERROR: INVALID INDEX."; // throw
+            index = -1;
+         }
+         return m_items[index];
+      }
+      void incrSize() {
+         if (m_size < C) {
+            m_size += 1;
+         }
+      }
 
    public:
       // *** PUBLIC CLASS MEMBERS ***
@@ -90,19 +95,29 @@ namespace sdds {
          return updated;
       }
 
-
       // Prints all items in the collection
-      void print(std::ostream& os) const {
+      std::ostream& print(std::ostream& os) const {
          os << "[";
          for (size_t i = 0; i < m_size; i++) {
             os << m_items[i];
-            if (i<m_size-1) {
+            if (i < m_size - 1) {
                os << ',';
             }
          }
          os << "]";
          os << std::endl;
+         return os;
       }
+
+      void printBooks(std::ostream& os) const {
+         std::cout << std::string(76, '-') << "|" << std::endl;
+         for (size_t i = 0; i < m_size; i++) {
+            std::cout << "| ";
+            m_items[i].print(std::cout) << "|" << std::endl;
+         }
+         std::cout << std::string(76, '-') << "|" << std::endl;
+      }
+
    };
 
    // *** INITIALIZATION OUTSIDE CLASS ***:
@@ -117,19 +132,23 @@ namespace sdds {
    template <>
    Book Collection<Book, 10>::m_largestItem = Book("", 10000, 1);
 
+   // PART II:
+   template <>
+   Book Collection<Book, 72>::m_smallestItem = Book("", 1, 10000);
+   template <>
+   Book Collection<Book, 72>::m_largestItem = Book("", 10000, 1);
+
+   template <>
+   std::ostream& Collection<Book, 10>::print(std::ostream& os) const {
+      printBooks(os);
+      return os;
+   }
+   template <>
+   std::ostream& Collection<Book, 72>::print(std::ostream& os) const {
+      printBooks(os);
+      return os;
+   }
+
 }
 
 #endif
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// JUST IN CASE I NEED IT BACK:
-
-//template <>
-//class Collection<Book, 10> {
-//   Book m_items[10]{};
-//   size_t m_size{};
-
-//   static Book m_smallestItem;
-//   static Book m_largestItem;
-//};

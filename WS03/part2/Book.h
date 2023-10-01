@@ -19,20 +19,16 @@ namespace sdds {
 		std::string m_title{};
 		unsigned m_numChapters{};
 		unsigned m_numPages{};
+		double m_avg{};
 	public:
 		Book();
 		Book(const std::string& title, unsigned nChapters, unsigned nPages);
+
 		operator bool() const;
+		bool operator<(const Book& item) const;
+		bool operator>(const Book& item) const;
 
-		// In completing Part 2, add here the missing 
-		// member prototypes that would be necessary for 
-		// OrderedCollection module code and tester module 
-		// w3_p2.cpp to manage Book-type object. 
-		
-		// Write the implementations of these functions 
-		// in Book.cpp file
 		std::ostream& print(std::ostream& os) const;
-
 	};
 	std::ostream& operator<<(std::ostream& os, const Book& bk);
 }
