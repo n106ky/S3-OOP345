@@ -1,3 +1,16 @@
+/* ****************************************************************************
+	OOP345 NFF WS03
+	PROF. HONG HUANG
+
+	KA YING, CHAN #123231227
+	kchan151@myseneca.ca
+
+	I have done all the coding by myself and only copied the code
+	that my professor provided to complete my workshops and assignments.
+
+	Completed on 2023 OCT 1
+**************************************************************************** */
+
 #ifndef SDDS_BOOK_H
 #define SDDS_BOOK_H
 
@@ -9,20 +22,7 @@ namespace sdds {
 	public:
 		Book();
 		Book(const std::string& title, unsigned nChapters, unsigned nPages);
-
-		// TODO: In completing Part 1, add here the missing 
-		// member prototypes that would be necessary for the 
-		// Collection module code and tester module w3_p1.cpp 
-		// to manage Book-type objects. 
-
-		//operator bool() const;
-		//void setEmpty();
-		//// RULE OF FIVE:
-		//Book(const Book& src);
-		//Book& operator=(const Book& src);
-		//Book(Book&& src) noexcept; // What is noexcept again? Is it a good practice?
-		//Book& operator=(Book&& src) noexcept;
-		//~Book();
+		operator bool() const;
 
 		// In completing Part 2, add here the missing 
 		// member prototypes that would be necessary for 

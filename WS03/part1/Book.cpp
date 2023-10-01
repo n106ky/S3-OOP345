@@ -1,5 +1,19 @@
+/* ****************************************************************************
+   OOP345 NFF WS03
+   PROF. HONG HUANG
+
+   KA YING, CHAN #123231227
+   kchan151@myseneca.ca
+
+   I have done all the coding by myself and only copied the code 
+   that my professor provided to complete my workshops and assignments.
+
+   Completed on 2023 OCT 1
+**************************************************************************** */
+
 #include <iostream>
 #include <iomanip>
+#include <sstream> 
 #include "Book.h"
 
 using namespace std;
@@ -12,50 +26,28 @@ namespace sdds {
          m_numPages = nPages;
       }
    }
-   // An object of Book type is valid or usable only when the title is not empty (has at least one character), it has at least one chapter, and it has at least one page.
-   //Book::operator bool() const {
-   //   return !m_title.empty() && m_numChapters > 0 && m_numPages > 0;
-   //}
-   //void Book::setEmpty() {
-   //   m_title.clear(); // to empty string, "not nullptr"
-   //   m_numChapters = 0;
-   //   m_numPages = 0;
-   //}
-   //Book::Book(const Book& src) {
-   //   if (src) {
-   //      m_title = src.m_title;
-   //      m_numChapters = src.m_numChapters;
-   //      m_numPages = src.m_numPages;
-   //   } else {
-   //      setEmpty();
-   //   }
-   //}
-   //Book& Book::operator=(const Book& src) {
-   //   if (this!=&src) {
-   //      if (src) {
-   //         m_title = src.m_title;
-   //         m_numChapters = src.m_numChapters;
-   //         m_numPages = src.m_numPages;
-   //      }
-   //      else { // set empty;
-   //         setEmpty();
-   //      }
-   //   }
-   //   return *this;
-   //}
-   //Book::Book(Book&& src) noexcept {
-   //}
-   //Book& Book::operator=(Book&& src) noexcept {
-   //}
-   //Book::~Book() {
-   //}
 
-
+   // Book type is valid only when the title is not empty, >= one chapter, >= one page.
+   Book::operator bool() const {
+      return !m_title.empty() && m_numChapters > 0 && m_numPages > 0;
+   }
 
    ostream& Book::print(std::ostream& os) const {
-      cout 
-         << setw(57) << right << m_title << ',' << m_numChapters << ',' << m_numPages << "|" 
-         << " (" << setw(16) << left << ((double)m_numPages / (double)m_numChapters) << ")";
+      if (*this) {
+         //os << setw(51) << right << m_title << ','
+         //   << setw(2) << right << m_numChapters << ','
+         //   << setw(3) << right << m_numPages;
+         ostringstream oss, oss2;
+         oss << m_title << ',' << m_numChapters << ',' << m_numPages;
+         oss2 << setprecision(6) << fixed << ((double)m_numPages / (double)m_numChapters) << ")";
+         os << setw(56) << right << oss.str();
+
+         os << " | " << "(";
+         os << setw(15) << left << oss2.str();
+      }
+      else {
+         os << "| Invalid book data";
+      }
       return os;
    }
 
