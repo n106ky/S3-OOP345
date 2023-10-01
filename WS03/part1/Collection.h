@@ -4,42 +4,74 @@
 namespace sdds {
    template <typename T, size_t C>
    class Collection {
-      // Private Instance Members
+      // *** PRIVATE INSTANCE MEMBERS ***
       T m_items[C]{};        // The items of the collection
-      size_t m_size{};       // The current size of the collection (maximum number of items)
+      size_t m_size{};       // The current size of the collection (number of items)
 
-      // Private Class Members
+      // *** PRIVATE CLASS MEMBERS ***
       static T m_smallestItem;  // to store smallest item. Initialize to 9999 outside class.
       static T m_largestItem;   // to store largest item. Initialize to -9999 outside class.
 
    protected:
-      // Protected Instance Members:
-      void setSmallestItem(const T& item); // Updates m_smallestItem if the new item is smaller
-      void setLargestItem(const T& item);  // Updates m_largestItem if the new item is larger
+      // *** PROTECTED INSTANCE MEMBERS ***:
+
+      // Updates m_smallestItem if the new item is smaller
+      void setSmallestItem(const T& item) {
+
+      }
+
+      // Updates m_largestItem if the new item is larger
+      void setLargestItem(const T& item) {
+
+      }
 
    public:
-      Collection(); // Default constructor
+      // DEFAULT CONSTRUCTOR
+      Collection(); 
 
-      // Public Class Members
-      static T getSmallestItem(); // Returns m_smallestItem
-      static T getLargestItem();  // Returns m_largestItem
+      // *** PUBLIC CLASS MEMBERS ***
+      
+      // Returns m_smallestItem:
+      static T getSmallestItem() {
+         return m_smallestItem;
+      }
 
-      // Public Instance Members
-      size_t size() const;       // Returns current number of items
-      size_t capacity() const;   // Returns the capacity of the collection
+      // Returns m_largestItem
+      static T getLargestItem() {
+         return m_largestItem;
+      }
 
-      bool operator+=(const T& item); // Adds an item and updates size and smallest/largest items
-      void print(std::ostream& os) const; // Prints all items in the collection
+      // *** PUBLIC INSTANCE MEMBERS ***
+
+      // Returns current number of items
+      size_t size() const {
+         return m_size;
+      }
+
+      // Returns the capacity of the collection
+      size_t capacity() const {
+         return C;
+      }
+
+      // Adds an item and updates size and smallest/largest items
+      bool operator+=(const T& item) {
+
+      }
+
+      // Prints all items in the collection
+      void print(std::ostream& os) const {
+
+      }
    };
 
-   // INITIALIZATION OUTSIDE CLASS:
+   // *** INITIALIZATION OUTSIDE CLASS ***:
    template <typename T, size_t C>
    T Collection<T,C>::m_smallestItem = 9999;
    template <typename T, size_t C>
    T Collection<T,C>::m_largestItem = -9999;
 
   
-   // TEMPLATE SPECIALIZATIONS:
+   // *** TEMPLATE SPECIALIZATIONS ***:
    template <>
    class Collection<Book, 10> {
       Book m_items[10]{};
@@ -51,43 +83,6 @@ namespace sdds {
 
    Book Collection<Book, 10>::m_smallestItem = Book("", 1, 10000);
    Book Collection<Book, 10>::m_largestItem = Book("", 10000, 1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ////////////////////////////////////////////////////////////////////////////////////////////////
-   
-   // PROTECTED PART II - PROTOTYPE:
-   //T& operator[](size_t size);
-   //void incrSize();
-   // 
-   // PROTECTED PART II - IMPLEMENTATION:
-   //template <typename T, size_t C>
-   //T& Collection<T, C>::operator[](size_t size) {
-   //   return m_items[size];
-   //}
-   //template <typename T, size_t C>
-   //void Collection<T, C>::incrSize() {
-   //}
-
-
-
-
-
-
-
-
-
 
 
 }
