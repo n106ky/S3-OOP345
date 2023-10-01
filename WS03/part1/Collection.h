@@ -32,22 +32,27 @@ namespace sdds {
       void print(std::ostream& os) const; // Prints all items in the collection
    };
 
+   // INITIALIZATION OUTSIDE CLASS:
    template <typename T, size_t C>
    T Collection<T,C>::m_smallestItem = 9999;
-
    template <typename T, size_t C>
    T Collection<T,C>::m_largestItem = -9999;
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////
-   //template <typename T, size_t C>
-   //Collection<Book, 10>::m_smallestItem = Book("Empty", 1, 10000) {
+  
+   // TEMPLATE SPECIALIZATIONS:
+   template <>
+   class Collection<Book, 10> {
+      Book m_items[10]{};
+      size_t m_size{};
 
-   //}
+      static Book m_smallestItem;
+      static Book m_largestItem;
+   };
 
-   //template <typename T, size_t C>
-   //Collection<Book, 10>::m_largestItem = Book("Empty", 10000, 1) {
+   Book Collection<Book, 10>::m_smallestItem = Book("", 1, 10000);
+   Book Collection<Book, 10>::m_largestItem = Book("", 10000, 1);
 
-   //}
+
 
 
 
