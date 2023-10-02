@@ -14,7 +14,7 @@
 #ifndef SDDS_COLLECTION_H
 #define SDDS_COLLECTION_H
 
-#include <type_traits>  // for std::is_same<>
+//#include <type_traits>  // for std::is_same<>
 #include <iomanip>
 
 namespace sdds {
@@ -31,23 +31,23 @@ namespace sdds {
    protected:
       // *** PROTECTED INSTANCE MEMBERS ***:
       // Check if T is double, then set precision
-      void setPrec() const {
-         if constexpr (std::is_same_v<T, double>) { 
-            std::cout.setf(std::ios::fixed);
-            std::cout.precision(1);
-         }
-      }
+      //void setPrec() const {
+      //   if constexpr (std::is_same_v<T, double>) { 
+      //      std::cout.setf(std::ios::fixed);
+      //      std::cout.precision(1);
+      //   }
+      //}
       // Updates m_smallestItem if the new item is smaller
       void setSmallestItem(const T& item) {
          if (item < m_smallestItem){
-            setPrec();
+            //setPrec();
             m_smallestItem = item;
          }
       }
       // Updates m_largestItem if the new item is larger
       void setLargestItem(const T& item) {
          if (item > m_largestItem){
-            setPrec();
+            //setPrec();
             m_largestItem = item;
          }
       }
@@ -55,7 +55,7 @@ namespace sdds {
       // PART II:
       T& operator[](size_t index) {
          if (index >= m_size) {
-            std::cout << "ERROR: INVALID INDEX."; // throw
+            std::cout << "ERROR: INVALID INDEX."; // throw error
             index = -1;
          }
          return m_items[index];
@@ -96,7 +96,7 @@ namespace sdds {
       }
 
       // Prints all items in the collection
-      std::ostream& print(std::ostream& os) const {
+      std::ostream& print(std::ostream& os)  {
          os << "[";
          for (size_t i = 0; i < m_size; i++) {
             os << m_items[i];
@@ -104,18 +104,18 @@ namespace sdds {
                os << ',';
             }
          }
-         os << "]";
-         os << std::endl;
+         os << "]" << std::endl;
          return os;
       }
 
-      void printBooks(std::ostream& os) const {
+      std::ostream& printBooks(std::ostream& os)  {
          std::cout << std::string(76, '-') << "|" << std::endl;
          for (size_t i = 0; i < m_size; i++) {
             std::cout << "| ";
             m_items[i].print(std::cout) << "|" << std::endl;
          }
          std::cout << std::string(76, '-') << "|" << std::endl;
+         return os;
       }
 
    };
@@ -139,16 +139,15 @@ namespace sdds {
    Book Collection<Book, 72>::m_largestItem = Book("", 10000, 1);
 
    template <>
-   std::ostream& Collection<Book, 10>::print(std::ostream& os) const {
+   std::ostream& Collection<Book, 10>::print(std::ostream& os)  {
       printBooks(os);
       return os;
    }
    template <>
-   std::ostream& Collection<Book, 72>::print(std::ostream& os) const {
+   std::ostream& Collection<Book, 72>::print(std::ostream& os)  {
       printBooks(os);
       return os;
    }
-
 }
 
 #endif

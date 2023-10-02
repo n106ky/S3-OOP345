@@ -19,10 +19,11 @@ namespace sdds {
 		std::string m_title{};
 		unsigned m_numChapters{};
 		unsigned m_numPages{};
-		double m_avg{};
+		//double m_avg{};
 	public:
 		Book();
 		Book(const std::string& title, unsigned nChapters, unsigned nPages);
+		Book& operator=(const Book& book);
 
 		operator bool() const;
 		bool operator<(const Book& item) const;
