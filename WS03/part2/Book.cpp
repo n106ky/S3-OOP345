@@ -62,7 +62,7 @@ namespace sdds {
       if (*this) { // m_title != "" && m_numChapters > 0 && m_numPages > 0
          ostringstream oss, oss2;
          oss << m_title << ',' << m_numChapters << ',' << m_numPages;
-         oss2 << setprecision(6) << fixed << (double)m_numPages / m_numChapters << ")"; // m_avg
+         oss2 << setprecision(6) << fixed << (double)m_numPages / m_numChapters << ") "; // m_avg
          os << setw(56) << right << oss.str();
          os << " | " << "(";
          os << setw(14) << left << oss2.str();

@@ -109,12 +109,12 @@ namespace sdds {
       }
 
       std::ostream& printBooks(std::ostream& os)  {
-         std::cout << std::string(76, '-') << "|" << std::endl;
+         std::cout << "| " << std::string(75, '-') << "|" << std::endl;
          for (size_t i = 0; i < m_size; i++) {
             std::cout << "| ";
-            m_items[i].print(std::cout) << "|" << std::endl;
+            m_items[i].print(std::cout) << " |" << std::endl;
          }
-         std::cout << std::string(76, '-') << "|" << std::endl;
+         std::cout << "| " << std::string(75, '-') << "|" << std::endl;
          return os;
       }
 
