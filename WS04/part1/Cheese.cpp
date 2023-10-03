@@ -1,8 +1,19 @@
+/* ****************************************************************************
+   OOP345 NFF WS04
+   PROF. HONG HUANG
+
+   KA YING, CHAN #123231227
+   kchan151@myseneca.ca
+
+   I have done all the coding by myself and only copied the code
+   that my professor provided to complete my workshops and assignments.
+
+   Completed on 2023 OCT 3
+**************************************************************************** */
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include "Cheese.h"
-
 //#include <typeinfo>
 
 using namespace std;
@@ -31,17 +42,6 @@ namespace sdds {
       m_weight = stoul(weight);
       m_price = stod(price);
       m_features = features;
-
-      //cout << "name     :|" << m_name << '|' << endl;
-      //cout << "weight   :|" << m_weight << '|' << endl;
-      //cout << "price    :|" << m_price << '|' << endl;
-      //cout << "features :|" << m_features << '|' << endl << endl;
-      
-      // TYPE CHECK
-      //cout << "name     :|" << typeid(m_name).name() << '|' << endl;
-      //cout << "weight   :|" << typeid(m_weight).name() << '|' << endl;
-      //cout << "price    :|" << typeid(m_price).name() << '|' << endl;
-      //cout << "features :|" << typeid(m_features).name() << '|' << endl << endl;
    }
 
    string Cheese::findStr(string& found, const string& str) {
@@ -72,10 +72,19 @@ namespace sdds {
       return newFts;
    }
 
-
    Cheese Cheese::slice(size_t weight){
-      Cheese chz;
-
+      // Minus cheese, return the new cheese
+      Cheese chz = *this;
+      if (chz.m_weight >= weight) {
+         chz.m_weight = m_weight - weight;
+      }
+      else {
+         // Set Empty
+         chz.m_name = { "NaC" };
+         chz.m_weight = 0;
+         chz.m_price = 0;
+         chz.m_features.clear();
+      }
       return chz;
    }
 
@@ -94,10 +103,6 @@ namespace sdds {
    }
 
    ostream& operator<<(ostream& os, const Cheese& chz) {
-      //os << "chz name     :|" << chz.getName() << '|' << endl;
-      //os << "chz weight   :|" << chz.getWeight() << '|' << endl;
-      //os << "chz price    :|" << chz.getPrice() << '|' << endl;
-      //os << "chz features :|" << chz.getFeatures() << '|' << endl << endl;
       os
          << '|' << setw(21) << left << chz.getName()
          << '|' << setw(5) << chz.getWeight()
@@ -105,27 +110,9 @@ namespace sdds {
          << '|' << setw(34) << right << chz.getFeatures() << endl;
       return os;
    }
-
-
-
 }
 
 /*
 FOR LATER USE:
-   // std::string cheeseAttributes[4]; // 4 for name, weight, price, and features
-   //while (line.find(',')) {
-   //}
-   //const int NAME = 0;
-   //const int WEIGHT = 1;
-   //const int PRICE = 2;
-   //const int FEATURES = 3;
-   //cheeseAttributes[NAME] = "Buffalo Gouda";
-   //cheeseAttributes[WEIGHT] = "500";
-   //cheeseAttributes[PRICE] = "2.99";
-   //cheeseAttributes[FEATURES] = "Sweet, Creamy";
-   //enum CheeseAttributes { NAME, WEIGHT, PRICE, FEATURES };
-   //cheeseAttributes[NAME] = "Buffalo Gouda";
-   //cheeseAttributes[WEIGHT] = "500";
-   //cheeseAttributes[PRICE] = "2.99";
-   //cheeseAttributes[FEATURES] = "Sweet, Creamy";
+
 */
