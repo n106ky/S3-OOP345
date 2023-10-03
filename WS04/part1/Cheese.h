@@ -9,8 +9,12 @@ namespace sdds {
       std::string m_features{};    // a description of the features/qualities of the cheese
 
       std::string findStr(std::string& found, const std::string& str);
-      std::string trimStr(const std::string& str);
-      std::string changeStr(const std::string& features);
+
+      //std::string trimStr(const std::string& str);
+      std::string trimStr(std::string& str);
+
+      //std::string changeStr(const std::string& features);
+      std::string changeStr(std::string& features);
    public:
       Cheese();
       Cheese(const std::string& str);

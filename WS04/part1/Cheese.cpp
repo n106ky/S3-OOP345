@@ -24,24 +24,30 @@ namespace sdds {
       //cout << "price    :|" << price << '|' << endl;
       //cout << "features :|" << features << '|' << endl;
 
-
       // TRIM:
-      string trim_name{};
-      string trim_weight{};
-      string trim_price{};
-      string trim_features{};
+      //string trim_name{};
+      //string trim_weight{};
+      //string trim_price{};
+      //string trim_features{};
 
-      trim_name = trimStr(name);
-      trim_weight = trimStr(weight);
-      trim_price = trimStr(price);
-      trim_features = changeStr(features);
+      //trim_name = trimStr(name);
+      //trim_weight = trimStr(weight);
+      //trim_price = trimStr(price);
+      //trim_features = changeStr(features);
+      name = trimStr(name);
+      weight = trimStr(weight);
+      price = trimStr(price);
+      features = changeStr(features);
 
       cout << "AFTER TRIM: " << endl;
-      cout << "name     :|" << trim_name << '|' << endl;
-      cout << "weight   :|" << trim_weight << '|' << endl;
-      cout << "price    :|" << trim_price << '|' << endl;
-      cout << "features :|" << trim_features << '|' << endl << endl;
-      
+      //cout << "name     :|" << trim_name << '|' << endl;
+      //cout << "weight   :|" << trim_weight << '|' << endl;
+      //cout << "price    :|" << trim_price << '|' << endl;
+      //cout << "features :|" << trim_features << '|' << endl << endl;
+      cout << "name     :|" << name<<'|' << endl;
+      cout << "weight   :|" << weight << '|' << endl;
+      cout << "price    :|" << price << '|' << endl;
+      cout << "features :|" << features << '|' << endl << endl;
    }
 
    string Cheese::findStr(string& found, const string& str) {
@@ -53,12 +59,32 @@ namespace sdds {
       //}
       return line;
    }
-   string Cheese::trimStr(const string& str) {
+   //string Cheese::trimStr(const string& str) {
+   //   size_t fCharPos = str.find_first_not_of(' ');
+   //   size_t lCharPos = str.find_last_not_of(' ');
+   //   return str.substr(fCharPos, (lCharPos - fCharPos + 1)); // substr(position of first character, length (how long) til the last char) | +1: position of first_char counts from 0.
+   //}
+   string Cheese::trimStr(string& str) {
       size_t fCharPos = str.find_first_not_of(' ');
       size_t lCharPos = str.find_last_not_of(' ');
-      return str.substr(fCharPos, (lCharPos - fCharPos + 1)); // substr(position of first character, length (how long) til the last char) | +1: position of first_char counts from 0.
+      return str.substr(fCharPos, (lCharPos - fCharPos + 1));
    }
-   string Cheese::changeStr(const string& features) {
+
+   //string Cheese::changeStr(const string& features) {
+   //   string newFts = features;
+   //   size_t space = newFts.find(' ');
+   //   while (space != std::string::npos) {
+   //      newFts.erase(space, 1);
+   //      space = newFts.find(' ');
+   //   }
+   //   size_t comma = newFts.find(',');
+   //   while (comma != std::string::npos) {
+   //      newFts[comma] = ' ';
+   //      comma = newFts.find(',');
+   //   }
+   //   return newFts;
+   //}
+   string Cheese::changeStr(string& features) {
       string newFts = features;
       size_t space = newFts.find(' ');
       while (space != std::string::npos) {
