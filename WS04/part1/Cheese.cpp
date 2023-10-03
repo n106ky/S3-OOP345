@@ -75,8 +75,9 @@ namespace sdds {
    Cheese Cheese::slice(size_t weight){
       // Minus cheese, return the new cheese
       Cheese chz = *this;
-      if (chz.m_weight >= weight) {
-         chz.m_weight = m_weight - weight;
+      if (m_weight >= weight) {
+         m_weight = m_weight - weight;
+         chz.m_weight = weight;
       }
       else {
          // Set Empty
@@ -107,7 +108,8 @@ namespace sdds {
          << '|' << setw(21) << left << chz.getName()
          << '|' << setw(5) << chz.getWeight()
          << '|' << setw(5) << fixed << setprecision(2) << chz.getPrice()
-         << '|' << setw(34) << right << chz.getFeatures() << endl;
+         << '|' << setw(33) << right << chz.getFeatures() 
+         << " |" << endl;
       return os;
    }
 }
