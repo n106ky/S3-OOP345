@@ -40,7 +40,7 @@ namespace sdds {
          m_size = shopSrc.m_size;
          m_chz = new const Cheese * [m_size]; //const
          for (size_t i = 0; i < m_size; i++) {
-            m_chz[i] = new Cheese(*(shopSrc.m_chz[i])); // might be wrong // const
+            m_chz[i] = new Cheese(*(shopSrc.m_chz[i])); // WHY DO WE HAVE TO DO IT LIKE THIS???
          }
       }
       return *this;
@@ -48,12 +48,52 @@ namespace sdds {
    CheeseShop::CheeseShop(CheeseShop&& shopSrc) noexcept { // why noexcept? why should not throw?
       *this = move(shopSrc);
    }
+   /*
    CheeseShop& CheeseShop::operator=(CheeseShop&& shopSrc) noexcept {
-      if (this!=&shopSrc) {
+      //if (this!=&shopSrc) {
+      //   delete[] m_chz;
+      //   m_shopname = shopSrc.m_shopname;
+      //   shopSrc.m_shopname.clear();
+      //   m_chz = shopSrc.m_chz;
+      //   shopSrc.m_chz = nullptr;
+      //}
+      if (this != &shopSrc) {
+         for (size_t i = 0; i < m_size; i++) {
+            delete m_chz[i];
+         }
          delete[] m_chz;
          m_shopname = shopSrc.m_shopname;
          shopSrc.m_shopname.clear();
+         m_size = shopSrc.m_size;
+         shopSrc.m_size = 0;
+         m_chz = new const Cheese * [m_size]; //const
+         for (size_t i = 0; i < m_size; i++) {
+            m_chz[i] = new Cheese(*(shopSrc.m_chz[i]));
+         }
+         for (size_t i = 0; i < m_size; i++) {
+            delete shopSrc.m_chz[i];
+         }
+         delete[] shopSrc.m_chz;
+      }
+      return *this;
+   }
+   */
+   CheeseShop& CheeseShop::operator=(CheeseShop&& shopSrc) noexcept {
+      if (this != &shopSrc) {
+         // 1. Delete current resources
+         for (size_t i = 0; i < m_size; i++) {
+            delete m_chz[i];
+         }
+         delete[] m_chz;
+
+         // 2. Transfer ownership of shopSrc's resources
+         m_shopname = std::move(shopSrc.m_shopname);
+         m_size = shopSrc.m_size;
          m_chz = shopSrc.m_chz;
+
+         // 3. Set shopSrc's members to default state
+         shopSrc.m_shopname.clear();
+         shopSrc.m_size = 0;
          shopSrc.m_chz = nullptr;
       }
       return *this;
@@ -71,8 +111,8 @@ namespace sdds {
       for (i = 0; i < m_size; i++) {
          temp_chz[i] = m_chz[i];
       }
-      // temp_chz[i] = chz; Why not working?
-      // temp_chz[i] = &chz; // Am I using move() here??
+      // temp_chz[i] = chz; // NOT WORKING.
+      // temp_chz[i] = &chz; // AM I USING MOVE()?
       temp_chz[i] = new Cheese(chz);
 
       //for (i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
@@ -80,7 +120,7 @@ namespace sdds {
       //}
       //delete[] m_chz;
 
-      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY
+      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE
       m_size++;
 
       return *this;
@@ -94,11 +134,10 @@ namespace sdds {
          << "--------------------------" << endl;
       if (chzShop.m_size > 0) {
          for (size_t i = 0; i < chzShop.m_size; i++) {
-            os
-         
+            os // CAN I USE THE OPERATOR<< IN CHEESE MODULE?
                << '|' << setw(21) << left << chzShop.m_chz[i]->getName()
                << '|' << setw(5) << chzShop.m_chz[i]->getWeight()
-               << '|' << setw(5) << fixed << setprecision(2) << chzShop.m_chz[i]->getWeight()
+               << '|' << setw(5) << fixed << setprecision(2) << chzShop.m_chz[i]->getPrice()
                << '|' << setw(33) << right << chzShop.m_chz[i]->getFeatures()
                << " |" << endl;
          }
@@ -108,11 +147,6 @@ namespace sdds {
             << "This shop is out of cheese!" << endl
             << "--------------------------" << endl;
       }
-
-         //CHEESE1 DETAILS
-         //CHEESE2 DETAILS
-         //...
-         //--------------------------
       return os;
    }
 
