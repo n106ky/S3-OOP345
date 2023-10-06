@@ -55,6 +55,7 @@ namespace sdds {
          m_weight = chz.m_weight;
          m_features = chz.m_features;
       }
+      return *this;
    }
 
    string Cheese::findStr(string& found, const string& str) {

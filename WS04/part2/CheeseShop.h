@@ -29,8 +29,8 @@ namespace sdds {
       // RULE OF FIVE:
       CheeseShop(const CheeseShop& shopSrc);
       CheeseShop& operator=(const CheeseShop& shopSrc);
-      CheeseShop(CheeseShop&& shopSrc)noexcept;
-      CheeseShop& operator=(CheeseShop&& shopSrc)noexcept;
+      CheeseShop(CheeseShop&& shopSrc) noexcept;
+      CheeseShop& operator=(CheeseShop&& shopSrc) noexcept;
       ~CheeseShop();
 
 
