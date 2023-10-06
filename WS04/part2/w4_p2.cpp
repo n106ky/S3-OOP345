@@ -169,70 +169,70 @@ int main(int argc, char **argv) {
   }
 
   // CheeseParty testing
-  //{
-  //  printdivider(70, "Cheese Party (empty)");
-  //  sdds::CheeseParty cp;
-  //  std::cout << cp;
-  //  printdivider(70);
+  {
+    printdivider(70, "Cheese Party (empty)");
+    sdds::CheeseParty cp;
+    std::cout << cp;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (add chesses to empty party)");
-  //  cp.addCheese(*cheeses[0]);
-  //  cp.addCheese(*cheeses[1]);
-  //  std::cout << cp;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (add chesses to empty party)");
+    cp.addCheese(*cheeses[0]);
+    cp.addCheese(*cheeses[1]);
+    std::cout << cp;
+    printdivider(70);
 
-  //  printdivider(70, "Slice Cheeses[0-1] - buffalo gouda, bulgarian feta");
-  //  cheeses[0]->slice(100); // Buffalo Gouda 300 -> 200
-  //  cheeses[1]->slice(100); // Bulgarian Feta 700 -> 600
-  //  printdivider(70);
+    printdivider(70, "Slice Cheeses[0-1] - buffalo gouda, bulgarian feta");
+    cheeses[0]->slice(100); // Buffalo Gouda 300 -> 200
+    cheeses[1]->slice(100); // Bulgarian Feta 700 -> 600
+    printdivider(70);
 
-  //  printdivider(
-  //      70, "Cheese Inventory (bufallo gouda/bulgarian feta updated amounts)");
-  //  for (auto i = 0u; i < 2; ++i) {
-  //    std::cout << *cheeses[i];
-  //  }
-  //  printdivider(70);
+    printdivider(
+        70, "Cheese Inventory (bufallo gouda/bulgarian feta updated amounts)");
+    for (auto i = 0u; i < 2; ++i) {
+      std::cout << *cheeses[i];
+    }
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (after slicing - changes in party)");
-  //  std::cout << cp;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (after slicing - changes in party)");
+    std::cout << cp;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (Copy Construction)");
-  //  sdds::CheeseParty cp2 = cp;
-  //  std::cout << cp2;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (Copy Construction)");
+    sdds::CheeseParty cp2 = cp;
+    std::cout << cp2;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (Copy Assignment)");
-  //  cp = cp2;
-  //  std::cout << cp;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (Copy Assignment)");
+    cp = cp2;
+    std::cout << cp;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (Move Construction)");
-  //  sdds::CheeseParty cp3 = std::move(cp2);
-  //  std::cout << cp2;
-  //  std::cout << cp3;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (Move Construction)");
+    sdds::CheeseParty cp3 = std::move(cp2);
+    std::cout << cp2;
+    std::cout << cp3;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (Move Assignment)");
-  //  cp3 = std::move(cp);
-  //  std::cout << cp;
-  //  std::cout << cp3;
-  //  printdivider(70);
+    printdivider(70, "Cheese Party (Move Assignment)");
+    cp3 = std::move(cp);
+    std::cout << cp;
+    std::cout << cp3;
+    printdivider(70);
 
-  //  // Add duplicate cheese already in party
-  //  printdivider(
-  //      70, "Cheese Party (Added Duplicate Cheese - No change to inventory)");
-  //  cp3.addCheese(*cheeses[0]);
-  //  cp3.addCheese(*cheeses[1]);
-  //  std::cout << cp3;
-  //  printdivider(70);
+    // Add duplicate cheese already in party
+    printdivider(
+        70, "Cheese Party (Added Duplicate Cheese - No change to inventory)");
+    cp3.addCheese(*cheeses[0]);
+    cp3.addCheese(*cheeses[1]);
+    std::cout << cp3;
+    printdivider(70);
 
-  //  printdivider(70, "Cheese Party (Remove Cheeses)");
-  //  cheeses[0]->slice(200); // Buffalo Gouda 200 -> 0
-  //  cp3.removeCheese();
-  //  std::cout << cp3;
-  //  printdivider(70);
-  //}
+    printdivider(70, "Cheese Party (Remove Cheeses)");
+    cheeses[0]->slice(200); // Buffalo Gouda 200 -> 0
+    cp3.removeCheese();
+    std::cout << cp3;
+    printdivider(70);
+  }
 
   // cleanup
   for (auto i = 0u; i < cnt; ++i)

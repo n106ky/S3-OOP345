@@ -90,9 +90,9 @@ namespace sdds {
          delete[] m_chz;
 
          // 2. Transfer ownership of shopSrc's resources
-         m_shopname = std::move(shopSrc.m_shopname);
-         m_size = shopSrc.m_size;
-         m_chz = shopSrc.m_chz;
+         m_shopname = move(shopSrc.m_shopname);
+         m_size = shopSrc.m_size;   // SO WHY I DO NOT NEED move() HERE?
+         m_chz = shopSrc.m_chz;     // AND HERE?
 
          // 3. Set shopSrc's members to default state
          shopSrc.m_shopname.clear();
@@ -129,7 +129,6 @@ namespace sdds {
       return *this;
    }
 
-
    ostream& operator<<(ostream& os, const CheeseShop& chzShop) {
       os
          << "--------------------------" << endl
@@ -144,6 +143,7 @@ namespace sdds {
                << '|' << setw(33) << right << chzShop.m_chz[i]->getFeatures()
                << " |" << endl;
          }
+         os << "--------------------------" << endl;
       }
       else {
          os
