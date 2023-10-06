@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
     printdivider(70);
 
     printdivider(70, "Cheese Shop (add chesses to empty shop)");
-    cs.addCheese(*cheeses[0]);
+    cs.addCheese(*cheeses[0]); // COPY FROM INSIDE. THAT'S WHY 300 AND 400, 700 AND 800.
     cs.addCheese(*cheeses[1]);
     std::cout << cs;
     printdivider(70);

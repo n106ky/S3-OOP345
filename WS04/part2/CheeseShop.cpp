@@ -109,21 +109,23 @@ namespace sdds {
 
    // a modifier that adds a cheese object to the array of pointers.
    CheeseShop& CheeseShop::addCheese(const Cheese& chz) {
+
+ 
+
       const Cheese** temp_chz = new const Cheese*[m_size + 1];
-      size_t i = 0;
-      for (i = 0; i < m_size; i++) {
+      for (size_t i = 0; i < m_size; i++) {
          temp_chz[i] = m_chz[i];
       }
       // temp_chz[i] = chz; // NOT WORKING.
       // temp_chz[i] = &chz; // AM I USING MOVE()?
-      temp_chz[i] = new Cheese(chz); // WHY WE NEED TO CONSTRUCT?
+      temp_chz[m_size] = new Cheese(chz); // WHY WE NEED TO CONSTRUCT? -> TO MAKE COPY | ALLOCATING A COPY 
 
-      //for (i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
+      //for (size_t i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
       //   delete m_chz[i];
       //}
-      //delete[] m_chz;
+      delete[] m_chz;
 
-      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE
+      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE...
       m_size++;
 
       return *this;
@@ -180,5 +182,25 @@ This approach effectively transfers ownership without deep copying and ensures t
 which is the typical contract for moved-from objects.
 
 Note: If Cheese objects have dynamically-allocated resources, make sure Cheese has an appropriate move constructor to prevent double deletions and other issues.
+
+
+-----------------------------------------------------------
+
+int main() {
+   // static array of ptrs
+   int* arr[10];
+   int x = 2;
+   arr[0] = &x;
+   arr[1] = new int(5);
+
+   // dynamic array of ptrs
+   int** arr2{};
+   arr2 = new int* [25];
+   arr2[0] = &x;
+   arr2[1] = new int(76);
+   delete[] arr2;
+   arr2 = nullptr;
+   arr2 = new int* [5];
+}
 
 */
