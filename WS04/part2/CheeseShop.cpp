@@ -40,7 +40,7 @@ namespace sdds {
          m_size = shopSrc.m_size;
          m_chz = new const Cheese * [m_size]; //const
          for (size_t i = 0; i < m_size; i++) {
-            m_chz[i] = new Cheese(*(shopSrc.m_chz[i])); // WHY DO WE HAVE TO DO IT LIKE THIS??? WHY WE NEED TO CONSTRUCT?
+            m_chz[i] = new Cheese(*shopSrc.m_chz[i]); // WHY DO WE HAVE TO DO IT LIKE THIS??? WHY WE NEED TO CONSTRUCT?
          }
       }
       return *this;
@@ -83,19 +83,22 @@ namespace sdds {
    CheeseShop& CheeseShop::operator=(CheeseShop&& shopSrc) noexcept {
       // 0. Check if duplicated
       if (this != &shopSrc) {
-         // 1. Delete current resources
-         for (size_t i = 0; i < m_size; i++) {
-            delete m_chz[i];
+         // 1. Delete current resources+
+         if (m_chz != nullptr) {
+            for (size_t i = 0; i < m_size; i++) {
+               delete m_chz[i];
+            }
          }
          delete[] m_chz;
+         m_chz = nullptr;
 
          // 2. Transfer ownership of shopSrc's resources
-         m_shopname = move(shopSrc.m_shopname);
+         m_shopname = shopSrc.m_shopname;
          m_size = shopSrc.m_size;   // SO WHY I DO NOT NEED move() HERE?
          m_chz = shopSrc.m_chz;     // AND HERE?
 
          // 3. Set shopSrc's members to default state
-         shopSrc.m_shopname.clear();
+         shopSrc.m_shopname.clear(); // "";
          shopSrc.m_size = 0;
          shopSrc.m_chz = nullptr;
       }
@@ -104,28 +107,29 @@ namespace sdds {
 
    CheeseShop::~CheeseShop() {
       // might need to use for loop to delete it one by one.
+      for (size_t i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
+         delete m_chz[i];
+      }
       delete[] m_chz;
    }
 
    // a modifier that adds a cheese object to the array of pointers.
    CheeseShop& CheeseShop::addCheese(const Cheese& chz) {
-
- 
-
-      const Cheese** temp_chz = new const Cheese*[m_size + 1];
-      for (size_t i = 0; i < m_size; i++) {
-         temp_chz[i] = m_chz[i];
+      const Cheese** temp_chz = new const Cheese * [m_size + 1];
+      size_t i = 0;
+      for (i = 0; i < m_size; i++) {
+         temp_chz[i] = new const Cheese(*m_chz[i]);
       }
       // temp_chz[i] = chz; // NOT WORKING.
       // temp_chz[i] = &chz; // AM I USING MOVE()?
-      temp_chz[m_size] = new Cheese(chz); // WHY WE NEED TO CONSTRUCT? -> TO MAKE COPY | ALLOCATING A COPY 
+      temp_chz[i] = new Cheese(chz); // WHY WE NEED TO CONSTRUCT?
 
-      //for (size_t i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
-      //   delete m_chz[i];
-      //}
+      for (i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
+         delete m_chz[i];
+      }
       delete[] m_chz;
 
-      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE...
+      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE
       m_size++;
 
       return *this;
@@ -136,14 +140,11 @@ namespace sdds {
          << "--------------------------" << endl
          << chzShop.m_shopname << endl
          << "--------------------------" << endl;
-      if (chzShop.m_size > 0) {
+      if (chzShop.m_chz && chzShop.m_size > 0) { //.m_size > 0
          for (size_t i = 0; i < chzShop.m_size; i++) {
-            os // CAN I USE THE OPERATOR<< IN CHEESE MODULE?
-               << '|' << setw(21) << left << chzShop.m_chz[i]->getName()
-               << '|' << setw(5) << chzShop.m_chz[i]->getWeight()
-               << '|' << setw(5) << fixed << setprecision(2) << chzShop.m_chz[i]->getPrice()
-               << '|' << setw(33) << right << chzShop.m_chz[i]->getFeatures()
-               << " |" << endl;
+            if (chzShop.m_chz[i]) {
+               os << *chzShop.m_chz[i];
+            }
          }
          os << "--------------------------" << endl;
       }

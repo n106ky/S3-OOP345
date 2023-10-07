@@ -18,7 +18,7 @@ namespace sdds {
    class CheeseShop {
       std::string m_shopname{};
       const Cheese** m_chz{}; // Each element in this array (m_chz) is a pointer to an object (Cheese*)
-      size_t m_size;
+      size_t m_size{};
 
    public:
       //CheeseShop();
@@ -42,4 +42,4 @@ namespace sdds {
 
 }
 
-#endif SDDS_CHEESESHOP_H
+#endif

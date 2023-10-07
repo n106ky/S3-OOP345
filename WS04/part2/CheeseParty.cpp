@@ -66,7 +66,7 @@ namespace sdds {
       }
       m_ptySize -= reduceCnt;
 
-      const Cheese** tempChzArray = new Cheese * [m_ptySize];
+      const Cheese** tempChzArray = new const Cheese * [m_ptySize];
       for (size_t i = 0; i < m_ptySize; i++) { // WHEN DO WE NEED FOR LOOP, WHEN WE DO NOT?
          tempChzArray[i] = m_pChz[i]; // FOR LOOP FOR DEEP COPY?
       }
@@ -143,12 +143,9 @@ namespace sdds {
          << "--------------------------" << endl;
       if (ptySrc.m_ptySize > 0) {
          for (size_t i = 0; i < ptySrc.m_ptySize; i++) {
-            os // CAN I USE THE OPERATOR<< IN CHEESE MODULE?
-               << '|' << setw(21) << left << ptySrc.m_pChz[i]->getName()
-               << '|' << setw(5) << ptySrc.m_pChz[i]->getWeight()
-               << '|' << setw(5) << fixed << setprecision(2) << ptySrc.m_pChz[i]->getPrice()
-               << '|' << setw(33) << right << ptySrc.m_pChz[i]->getFeatures()
-               << " |" << endl;
+            if (ptySrc.m_pChz[i]) {
+               os << *ptySrc.m_pChz[i];
+            }
          }
          os << "--------------------------" << endl;
       }
