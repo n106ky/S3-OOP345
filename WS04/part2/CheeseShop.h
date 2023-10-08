@@ -21,9 +21,6 @@ namespace sdds {
       size_t m_size{};
 
    public:
-      //CheeseShop();
-
-      // a constructor that receives as a parameter the name of the shop. The default value for the parameter is "No Name".
       CheeseShop(const std::string& name = "No Name");
 
       // RULE OF FIVE:
@@ -33,8 +30,6 @@ namespace sdds {
       CheeseShop& operator=(CheeseShop&& shopSrc) noexcept;
       ~CheeseShop();
 
-
-      // a modifier that adds a cheese object to the array of pointers.
       CheeseShop& addCheese(const Cheese& chz); 
 
       friend std::ostream& operator<<(std::ostream& os, const CheeseShop& chzShop);

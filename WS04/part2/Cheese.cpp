@@ -38,7 +38,6 @@ namespace sdds {
       price = trimStr(price);
       features = changeStr(features);
 
-      // DO WE NEED SAFE CHECK FOR DATA MEMBERS?
       m_name = name;
       m_weight = stoul(weight);
       m_price = stod(price);
@@ -128,8 +127,3 @@ namespace sdds {
       return os;
    }
 }
-
-/*
-FOR LATER USE:
-
-*/

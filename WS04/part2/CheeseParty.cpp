@@ -21,12 +21,6 @@ using namespace std;
 namespace sdds {
    CheeseParty::CheeseParty() {}
    CheeseParty& CheeseParty::addCheese(const Cheese& chz) {
-      /*
-      Search in the array of already stored cheeses to find if the parameter is already in there (compare the address of the parameter with the addresses stored in the array).
-      If the parameter is already in the array, this function does nothing.
-      If the parameter is not in the array, this function resizes the array to make room for the parameter (if necessary) 
-      And stores the address of the parameter in the array (your function should not make a copy of the parameter).
-      */
 
       bool check = false;
       for (size_t i = 0; i < m_ptySize; i++) { // FIRST WE WANT TO FIND IF THE CHEESE IS INSIDE THE ARRAY.
@@ -50,13 +44,12 @@ namespace sdds {
       return *this;
    }
 
-
-   CheeseParty& CheeseParty::removeCheese() { // DIDN'T ASK CHAT.
+   CheeseParty& CheeseParty::removeCheese() { 
       size_t reduceCnt = 0;
       for (size_t i = 0; i < m_ptySize; i++) {
          if (m_pChz[i]->getWeight() == 0) {
             m_pChz[i] = nullptr;
-            for (size_t j = i+1; j < m_ptySize; j++) { // IF NOT CHANGING, THE FIRST ONE WILL BE NULLPTR AND CANNOT PRINT.
+            for (size_t j = i+1; j < m_ptySize; j++) { 
                if (m_pChz[j]->getWeight() != 0) {
                   m_pChz[i] = m_pChz[j];
                }
@@ -67,8 +60,8 @@ namespace sdds {
       m_ptySize -= reduceCnt;
 
       const Cheese** tempChzArray = new const Cheese * [m_ptySize];
-      for (size_t i = 0; i < m_ptySize; i++) { // WHEN DO WE NEED FOR LOOP, WHEN WE DO NOT?
-         tempChzArray[i] = m_pChz[i]; // FOR LOOP FOR DEEP COPY?
+      for (size_t i = 0; i < m_ptySize; i++) { 
+         tempChzArray[i] = m_pChz[i];
       }
       delete[] m_pChz;
       m_pChz = tempChzArray;
@@ -82,8 +75,6 @@ namespace sdds {
    }
    CheeseParty& CheeseParty::operator=(const CheeseParty& ptySrc) {
       if (this != &ptySrc) {
-         // Clean up old data
-         // Note: Do NOT delete the individual Cheese objects
          delete[] m_pChz;
          m_ptySize = ptySrc.m_ptySize;
          m_pChz = new const Cheese * [m_ptySize];
@@ -94,31 +85,11 @@ namespace sdds {
       return *this;
    }
 
-   /*
-      CheeseParty& CheeseParty::operator=(const CheeseParty& ptySrc) {
-      if (this != &ptySrc){
-         for (size_t i = 0; i < m_ptySize; i++) {
-            delete m_pChz[i];
-         }
-         delete[] m_pChz;
-         m_ptySize = ptySrc.m_ptySize;
-         m_pChz = new const Cheese * [m_ptySize];
-         for (size_t i = 0; i < m_ptySize; i++) {
-            m_pChz[i] = new Cheese(*(ptySrc.m_pChz[i]));
-         }
-      }
-      return *this;
-   }
-   */
-
    CheeseParty::CheeseParty(CheeseParty&& ptySrc) {
       *this = move(ptySrc);
    }
    CheeseParty& CheeseParty::operator=(CheeseParty&& ptySrc) {
       if (this != &ptySrc) {
-         //for (size_t i = 0; i < m_ptySize; i++) { // SHOULD NOT CHANGE THE CHEESE MODULE
-         //   delete m_pChz[i];
-         //}
          delete[] m_pChz;
 
          m_ptySize = move(ptySrc.m_ptySize);
@@ -130,9 +101,6 @@ namespace sdds {
       return *this;
    }
    CheeseParty::~CheeseParty() {
-      //for (size_t i = 0; i < m_ptySize; i++) { // SHOULD NOT CHANGE THE CHEESE MODULE
-      //   delete m_pChz[i];
-      //}
       delete[] m_pChz;
    }
 
@@ -156,11 +124,4 @@ namespace sdds {
       }
       return os;
    }
-
-
-
-
-
-
-
 }

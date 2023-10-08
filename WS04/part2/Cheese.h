@@ -20,7 +20,6 @@ namespace sdds {
       double m_price{};             // the price per gram of the cheese
       std::string m_features{};     // a description of the features/qualities of the cheese
 
-      // UPGRADE: Can we find and trim in one step?
       std::string findStr(std::string& found, const std::string& str);
       std::string trimStr(std::string& str);
       std::string changeStr(std::string& features);
@@ -44,7 +43,6 @@ namespace sdds {
 
    // HELPER FUNCTIONS:
    std::ostream& operator<<(std::ostream& os, const Cheese& chz);
-
 }
 
 #endif

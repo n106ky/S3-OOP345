@@ -26,11 +26,6 @@ namespace sdds {
       *this = shopSrc;
    }
    CheeseShop& CheeseShop::operator=(const CheeseShop& shopSrc) {
-      //if (this!=&shopSrc) {
-      //   delete[] m_chz;
-      //   m_shopname = shopSrc.m_shopname;
-      //   m_chz = shopSrc.m_chz;
-      //}
       if (this != &shopSrc) {
          for (size_t i = 0; i < m_size; i++) {
             delete m_chz[i];
@@ -38,52 +33,19 @@ namespace sdds {
          delete[] m_chz;
          m_shopname = shopSrc.m_shopname;
          m_size = shopSrc.m_size;
-         m_chz = new const Cheese * [m_size]; //const
+         m_chz = new const Cheese * [m_size];
          for (size_t i = 0; i < m_size; i++) {
-            m_chz[i] = new Cheese(*shopSrc.m_chz[i]); // WHY DO WE HAVE TO DO IT LIKE THIS??? WHY WE NEED TO CONSTRUCT?
+            m_chz[i] = new Cheese(*shopSrc.m_chz[i]); 
          }
       }
       return *this;
    }
-   CheeseShop::CheeseShop(CheeseShop&& shopSrc) noexcept { //  WHY noexcept? WHY SHOULD NOT THROW?
+   CheeseShop::CheeseShop(CheeseShop&& shopSrc) noexcept {
       *this = move(shopSrc);
    }
 
-   /*
-   CheeseShop& CheeseShop::operator=(CheeseShop&& shopSrc) noexcept { // ERROR WITH THIS CODE: DEBUG_HEAP.CPP - A breakpoint instruction (__debugbreak() statement or a similar call) was executed in WS04.exe.
-      //if (this!=&shopSrc) {
-      //   delete[] m_chz;
-      //   m_shopname = shopSrc.m_shopname;
-      //   shopSrc.m_shopname.clear();
-      //   m_chz = shopSrc.m_chz;
-      //   shopSrc.m_chz = nullptr;
-      //}
-      if (this != &shopSrc) {
-         for (size_t i = 0; i < m_size; i++) {
-            delete m_chz[i];
-         }
-         delete[] m_chz;
-         m_shopname = shopSrc.m_shopname;
-         shopSrc.m_shopname.clear();
-         m_size = shopSrc.m_size;
-         shopSrc.m_size = 0;
-         m_chz = new const Cheese * [m_size]; //const
-         for (size_t i = 0; i < m_size; i++) {
-            m_chz[i] = new Cheese(*(shopSrc.m_chz[i]));
-         }
-         for (size_t i = 0; i < m_size; i++) {
-            delete shopSrc.m_chz[i];
-         }
-         delete[] shopSrc.m_chz;
-      }
-      return *this;
-   }
-   */
-
    CheeseShop& CheeseShop::operator=(CheeseShop&& shopSrc) noexcept {
-      // 0. Check if duplicated
       if (this != &shopSrc) {
-         // 1. Delete current resources+
          if (m_chz != nullptr) {
             for (size_t i = 0; i < m_size; i++) {
                delete m_chz[i];
@@ -92,12 +54,10 @@ namespace sdds {
          delete[] m_chz;
          m_chz = nullptr;
 
-         // 2. Transfer ownership of shopSrc's resources
          m_shopname = shopSrc.m_shopname;
-         m_size = shopSrc.m_size;   // SO WHY I DO NOT NEED move() HERE?
-         m_chz = shopSrc.m_chz;     // AND HERE?
+         m_size = shopSrc.m_size;
+         m_chz = shopSrc.m_chz;
 
-         // 3. Set shopSrc's members to default state
          shopSrc.m_shopname.clear(); // "";
          shopSrc.m_size = 0;
          shopSrc.m_chz = nullptr;
@@ -106,30 +66,26 @@ namespace sdds {
    }
 
    CheeseShop::~CheeseShop() {
-      // might need to use for loop to delete it one by one.
-      for (size_t i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
+      for (size_t i = 0; i < m_size; i++) {
          delete m_chz[i];
       }
       delete[] m_chz;
    }
 
-   // a modifier that adds a cheese object to the array of pointers.
    CheeseShop& CheeseShop::addCheese(const Cheese& chz) {
       const Cheese** temp_chz = new const Cheese * [m_size + 1];
       size_t i = 0;
       for (i = 0; i < m_size; i++) {
          temp_chz[i] = new const Cheese(*m_chz[i]);
       }
-      // temp_chz[i] = chz; // NOT WORKING.
-      // temp_chz[i] = &chz; // AM I USING MOVE()?
-      temp_chz[i] = new Cheese(chz); // WHY WE NEED TO CONSTRUCT?
+      temp_chz[i] = new Cheese(chz); 
 
-      for (i = 0; i < m_size; i++) { // BIG QUESTION: WHY I DON'T NEED IT?????????
+      for (i = 0; i < m_size; i++) {
          delete m_chz[i];
       }
       delete[] m_chz;
 
-      m_chz = temp_chz; // STH WRONG HERE, CANNOT STORE STRING PROPERLY // UPDATE: NTH IS WRONG HERE
+      m_chz = temp_chz;
       m_size++;
 
       return *this;
@@ -155,53 +111,4 @@ namespace sdds {
       }
       return os;
    }
-
 }
-
-/*
-ASK CHAT:
-
-The function you've provided is the move assignment operator, which is meant to transfer ownership of resources from one object (shopSrc) to another (the current object). 
-Given the nature of move semantics, we aim to achieve this transfer of ownership without unnecessary deep copying.
-
-Your current implementation, however, is more akin to the copy assignment operator, especially this section:
-
-   m_chz = new const Cheese * [m_size]; //const
-   for (size_t i = 0; i < m_size; i++) {
-       m_chz[i] = new Cheese(*(shopSrc.m_chz[i]));
-   }
-
-You're allocating new memory and creating deep copies of each Cheese object, which defeats the purpose of move semantics.
-
-Here's how you can improve the move assignment operator for your CheeseShop class:
-
-Delete the current resources of the object (the array and the Cheese objects it points to).
-Transfer ownership of shopSrc's resources to the current object.
-Set shopSrc's members to a default state to prevent double deletion.
-
-This approach effectively transfers ownership without deep copying and ensures that the shopSrc object is left in a valid but unspecified state, 
-which is the typical contract for moved-from objects.
-
-Note: If Cheese objects have dynamically-allocated resources, make sure Cheese has an appropriate move constructor to prevent double deletions and other issues.
-
-
------------------------------------------------------------
-
-int main() {
-   // static array of ptrs
-   int* arr[10];
-   int x = 2;
-   arr[0] = &x;
-   arr[1] = new int(5);
-
-   // dynamic array of ptrs
-   int** arr2{};
-   arr2 = new int* [25];
-   arr2[0] = &x;
-   arr2[1] = new int(76);
-   delete[] arr2;
-   arr2 = nullptr;
-   arr2 = new int* [5];
-}
-
-*/
