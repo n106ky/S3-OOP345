@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "Flags.h"
 #include "Directory.h"
 #include "File.h"
