@@ -14,7 +14,7 @@ using namespace std;
 namespace sdds {
    //size_t m_widthField = 0;
    size_t sdds::Station::m_widthField = 0;
-   int id_generator = 0;
+   int Station::id_generator = 0;
 
    /*
    * Custom 1-argument constructor
@@ -46,12 +46,10 @@ namespace sdds {
          m_widthField = std::max(m_widthField, utils.getFieldWidth()); // returns the greater of the two arguments it receives.
 
          m_desc = utils.extractToken(src, pos, more);
+         m_id = ++id_generator;
 
-         //cout << "itemname   : " << m_itemName << endl;
-         //cout << "serial no. : " << m_serialNumber << endl;
-         //cout << "quantity   : " << m_quantity << endl;
-         //cout << "desc       : " << m_desc << endl;
-
+         //cout << "m_id         : " << m_id << endl;
+         //cout << "id_generator : " << id_generator << endl;
       }
       catch (const exception& e) {
          cerr << "Error: " << e.what() << endl;
@@ -79,12 +77,12 @@ namespace sdds {
    void Station::display(std::ostream& os, bool full) const {
       os << setw(3) << setfill('0') << m_id << " | ";
       os << left << setw(m_widthField) << setfill(' ') << m_itemName << " | ";
-      os << setw(6) << setfill('0') << m_serialNumber << " | ";
+      os << right << setw(6) << setfill('0') << m_serialNumber << " | ";
       if (full) {
          os << setw(4) << setfill(' ') << m_quantity << " | ";
          os << m_desc;
       }
       os << endl;
    }
-   
+
 }

@@ -14,7 +14,7 @@
       static char m_delimiter;   // separates the tokens in any given std::string object. All Utilities objects in the system share the same delimiter.
    public:
 
-      Utilities();
+      Utilities() {};
 
       // MEMBER FUNCTIONS:
       std::string extractToken(const std::string& str, size_t& next_pos, bool& more);

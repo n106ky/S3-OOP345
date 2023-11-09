@@ -12,7 +12,6 @@ using namespace std;
 
    char Utilities::m_delimiter{};
 
-   Utilities::Utilities() {};
    // MEMBER FUNCTIONS
 
    /*
@@ -34,6 +33,9 @@ using namespace std;
 
       // GET TOKEN:
       delimiter_pos = str.find(m_delimiter, next_pos);
+      if (delimiter_pos == next_pos) {
+         throw "Double Delimiter";
+      }
       if (delimiter_pos != string::npos) {
          token = str.substr(next_pos, delimiter_pos - next_pos); // substr(starting pos, length)
          if (!token.empty()) {
@@ -52,9 +54,9 @@ using namespace std;
       token = token.substr(fSpacePos, (lSpacePos - fSpacePos + 1));
       //cout << "|" << token << "|" << endl;
 
-      if (str[next_pos] == m_delimiter) {
-         throw "Double Delimiter";
-      }
+      //if (str[next_pos] == m_delimiter) {
+      //   throw "Double Delimiter";
+      //}
 
       if (m_widthField < token.length()) {
          m_widthField = token.length();
