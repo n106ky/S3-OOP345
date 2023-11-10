@@ -27,8 +27,6 @@ namespace sdds {
    public:
       CovidCollection() {};
       CovidCollection(const std::string filename);
-       void display(std::ostream&) const;
-
 
       /*
       This function represents Task #1 -- DO NOT USE MANUAL LOOPS!
@@ -37,7 +35,7 @@ namespace sdds {
       Implement the function to print only the information about the country specified in the second parameter. If the parameter has the value ALL, then print information for all countries.
       This function should also calculate the percentage of cases/deaths in the specified country from the world total. If the second parameter is ALL, then this function should print the number of cases/deaths in the world. See the sample output for the format.
       */
-      // void display(std::ostream& os, const std::string& country="ALL") const;
+      void display(std::ostream& os, const std::string& country="ALL") const;
 
       /*
       This function represents Task #2 -- DO NOT USE MANUAL LOOPS!
@@ -45,7 +43,7 @@ namespace sdds {
       The parameter should have a default value of country (do not overload this function).
       If two Covid objects have the same value for the specified field, then the object with lower deaths is considered smaller.
       */
-      void sort(const std::string& field="");
+      void sort(const std::string& field = "country");
 
 
       /*

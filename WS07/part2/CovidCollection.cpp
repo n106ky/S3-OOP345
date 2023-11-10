@@ -3,7 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <list>
-
+#include <numeric>
 #include <algorithm>
 #include <iterator>
 #include "CovidCollection.h"
@@ -79,7 +79,8 @@ namespace sdds {
       (c.m_year > 0) ? os << c.m_year : os << "";
       os << " | "
          << setw(4) << c.m_cases << " | "
-         << setw(3) << c.m_deaths << " |";
+         << setw(3) << c.m_deaths << " |" << " | "
+         << setw(8) << c.m_status << " |";
       return os;
    }
 
@@ -95,17 +96,42 @@ namespace sdds {
    If the second parameter is ALL, then this function should print the number of cases/deaths in the world. See the sample output for the format.
    */
    void CovidCollection::display(std::ostream& os, const std::string& country) const {
-      /*
+      unsigned worldCases{}, worldDeath{}, countryCases{}, countryDeaths{};
+      std::for_each(m_collection.begin(), m_collection.end(), [&](const Covid& c) {
+         worldCases += c.m_cases;
+         worldDeath += c.m_deaths;
+         });
       if (country == "ALL") {
          std::for_each(m_collection.begin(), m_collection.end(), [&](const Covid& c) {
-            os
-               << c
-               << "|" << c.m_status << "|" << endl;
+            os << c << endl;
             });
+         string worldcasesStr = "Total cases around the world: " + to_string(worldCases) + " |";
+         string worldDeathStr = "Total deaths around the world: " + to_string(worldDeath) + " |";
+         os
+            << "|" << setw(87) << worldcasesStr << endl
+            << "|" << setw(87) << worldDeathStr << endl;
       }
       else {
+         os << "Displaying information of country = " << country << endl;
+         std::for_each(m_collection.begin(), m_collection.end(), [&](const Covid& c) {
+            if (c.m_country == country) {
+               countryCases += c.m_cases;
+               countryDeaths += c.m_deaths;
+               os << c << endl;
+            }
+            });
+         string countryCasesStr = "Total cases in " + country + ": " + to_string(countryCases) + " |";
+         string countryDeathsStr = "Total deaths in " + country + ": " + to_string(countryDeaths) + " |";
+         double casesRate = (double(countryCases) / double(worldCases)) * 100;
+         double deathsRate = (double(countryDeaths) / double(worldDeath)) * 100;
+
+         string calStr = country + " has " + to_string(casesRate) + "% of global cases and " + to_string(deathsRate) + "% of global deaths |";
+         os
+            << setw(88) << setfill('-') << "-" << endl
+            << "|" << setfill(' ') << setw(87) << countryCasesStr << endl
+            << "|" << setw(87) << countryDeathsStr << endl
+            << "|" << setw(87) << calStr << endl;
       }
-      */
 
    }
 
@@ -115,8 +141,25 @@ namespace sdds {
    The parameter should have a default value of country (do not overload this function).
    If two Covid objects have the same value for the specified field, then the object with lower deaths is considered smaller.
    */
-   void CovidCollection::sort(const std::string& field) {
 
+   void CovidCollection::sort(const std::string& field) {
+      //cout << "FIELD: " << field << endl;
+      auto comparator = [field](const Covid& a, const Covid& b) {
+         if (field == "year") {
+            return (a.m_year < b.m_year) || (a.m_year == b.m_year && a.m_deaths < b.m_deaths);
+         }
+         else if (field == "variant") {
+            return (a.m_variant < b.m_variant) || (a.m_variant == b.m_variant && a.m_deaths < b.m_deaths);
+         }
+         else if (field == "city") {
+            return (a.m_city < b.m_city) || (a.m_city == b.m_city && a.m_deaths < b.m_deaths);
+         }
+         else {
+            return (a.m_country < b.m_country) || (a.m_country == b.m_country && a.m_deaths < b.m_deaths);
+         }
+      };
+
+      std::sort(m_collection.begin(), m_collection.end(), comparator);
    }
 
 
@@ -125,9 +168,13 @@ namespace sdds {
    Search in the collection for a city in the specified country where the variant from the first parameter has caused more deaths than the last parameter.
    Return true if such an object exists, false otherwise.
    */
+   //bool CovidCollection::inCollection(const std::string& variant, const std::string& country, unsigned int deaths) const {
+   //   return 1;
+   //}
    bool CovidCollection::inCollection(const std::string& variant, const std::string& country, unsigned int deaths) const {
-
-      return 1;
+      return std::any_of(m_collection.begin(), m_collection.end(), [&](const Covid& item) {
+         return item.m_variant == variant && item.m_country == country && item.m_deaths > deaths;
+         });
    }
 
    /*
@@ -136,7 +183,10 @@ namespace sdds {
    */
    list<Covid> CovidCollection::getListForDeaths(unsigned int deaths) const {
       list<Covid> filteredList{};
-   
+      std::copy_if(m_collection.begin(), m_collection.end(), std::back_inserter(filteredList),
+         [deaths](const Covid& item) {
+            return item.m_deaths >= deaths;
+         });
       return filteredList;
    }
 
@@ -148,7 +198,8 @@ namespace sdds {
    for anything else, the status should be MILD.
    */
    void CovidCollection::updateStatus() {
-      for_each(m_collection.begin(), m_collection.end(), [](Covid& c) {
+      //std::transform(m_collection.begin(), m_collection.end(), m_collection.begin(), [](Covid& c) {
+      std::for_each(m_collection.begin(), m_collection.end(), [](Covid& c) {
          if (c.m_deaths > 300) {
             c.m_status = "EPIDEMIC";
          }
@@ -159,5 +210,6 @@ namespace sdds {
             c.m_status = "MILD";
          }
          });
+
    }
 }
