@@ -1,7 +1,7 @@
 // Name                 : Ka Ying, Chan
 // Seneca Student ID    : 123231227
 // Seneca email         : kchan151@myseneca.ca
-// Date of completion   : NOV 15, 2023
+// Date of completion   : NOV 27, 2023
 //
 // I confirm that I am the only author of this file and the content was created entirely by me.
 #ifndef SDDS_WORKSTATION_H
@@ -28,20 +28,28 @@ namespace sdds {
 
       The Workstation class includes the following additional information:
    */
-
    class Workstation : public Station {
-      std::deque<CustomerOrder> m_orders;
+      std::deque<CustomerOrder> m_orders; // is a double-ended-queue with CustomerOrders entering the back and exiting the front. 
+                                          // These are orders that have been placed on this station to receive service (or already received service).
       Workstation* m_pNextStation{};
    public:
       Workstation(const std::string&);
 
+      // RULE OF FIVE
+      Workstation(const Workstation& src) = delete;
+      Workstation& operator=(const Workstation& src) = delete;
+      Workstation(Workstation&& src) = delete;
+      Workstation& operator=(Workstation&& src) = delete;
+      // ~Workstation();
+
       void fill(std::ostream& os);
       bool attemptToMoveOrder();
-      void setNextStation(Workstation* station);
+      void setNextStation(Workstation* station=nullptr);
       Workstation* getNextStation() const;
       void display(std::ostream& os) const;
 
       Workstation& operator+=(CustomerOrder&& newOrder);
+
    };
 }
 #endif 

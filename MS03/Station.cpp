@@ -75,7 +75,7 @@ namespace sdds {
    }
 
    void Station::display(std::ostream& os, bool full) const {
-      os << setw(3) << setfill('0') << m_id << " | ";
+      os << right << setw(3) << setfill('0') << m_id << " | ";
       os << left << setw(m_widthField) << setfill(' ') << m_itemName << " | ";
       os << right << setw(6) << setfill('0') << m_serialNumber << " | ";
       if (full) {

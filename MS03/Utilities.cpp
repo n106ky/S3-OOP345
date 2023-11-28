@@ -62,7 +62,6 @@ using namespace std;
       return token;
    }
 
-
    void Utilities::setFieldWidth(size_t newWidth) {
       m_widthField = newWidth;
    }
@@ -74,6 +73,6 @@ using namespace std;
    void Utilities::setDelimiter(char newDelimiter) {
       m_delimiter = newDelimiter;
    }
-      char Utilities::getDelimiter() {
+   char Utilities::getDelimiter() {
       return m_delimiter;
    }

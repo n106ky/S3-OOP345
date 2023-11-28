@@ -1,7 +1,7 @@
 // Name                 : Ka Ying, Chan
 // Seneca Student ID    : 123231227
 // Seneca email         : kchan151@myseneca.ca
-// Date of completion   : NOV 15, 2023
+// Date of completion   : NOV 27, 2023
 //
 // I confirm that I am the only author of this file and the content was created entirely by me.
 #ifndef SDDS_LINEMANAGER_H
@@ -37,7 +37,6 @@
       An incomplete order is one that went through the line but didn't get all the parts it needed because some workstations ran out of stock.
 */
 namespace sdds {
-
 
    class LineManager {
       std::vector<Workstation*> m_activeLine{};    // the collection of workstations for the current assembly line.

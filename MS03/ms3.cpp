@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 		cout << "========================================" << endl;
 		cout << "=           Filling Orders             =" << endl;
 		cout << "========================================" << endl;
-		//run the assembly line until all orders processed
+		// run the assembly line until all orders processed
 		while (!lm.run(cout));		
 		cout << endl << endl;
 	}
@@ -115,23 +115,23 @@ int main(int argc, char** argv)
 	cout << "========================================" << endl;
 	cout << "=      Processed Orders (complete)     =" << endl;
 	cout << "========================================" << endl;
-	//for (const auto& o : g_completed)
-	//	o.display(cout);
-	//cout << endl << endl;
+	for (const auto& o : g_completed)
+		o.display(cout);
+	cout << endl << endl;
 
 	cout << "========================================" << endl;
 	cout << "=     Processed Orders (incomplete)    =" << endl;
 	cout << "========================================" << endl;
-	//for (const auto& o : g_incomplete)
-	//	o.display(cout);
-	//cout << endl << endl;
+	for (const auto& o : g_incomplete)
+		o.display(cout);
+	cout << endl << endl;
 
 	cout << "========================================" << endl;
 	cout << "=          Inventory (full)            =" << endl;
 	cout << "========================================" << endl;
-	//for (const Station* theItem : theStations)
-	//	theItem->display(cout, true);
-	//cout << endl;
+	for (const Station* theItem : theStations)
+		theItem->display(cout, true);
+	cout << endl;
 
 	// cleanup
 	for (auto station : theStations)
