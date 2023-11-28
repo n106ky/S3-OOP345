@@ -123,7 +123,7 @@ namespace sdds {
 	+ if the order contains items handled but unfilled, and the inventory is empty, this function prints the message     Unable to fill NAME, PRODUCT[ITEM_NAME].
 	+ all messages printed are terminated by an endline
 	*/
-	
+	/*
 	void CustomerOrder::fillItem(Station& station, std::ostream& os) {
 		bool itemFound = false;
 		for (size_t i = 0; i < m_cntItem && !itemFound; i++) {
@@ -138,17 +138,36 @@ namespace sdds {
 			}
 			if (itemFound) {
 				os << setw(11) << right;
-				m_lstItem[i]->m_isFilled ? os << "Filled " : os << "Unable to fill ";
+				m_lstItem[i]->m_isFilled ? os << "Filled " : os << "    Unable to fill ";
 				os << m_name << ", " << m_orderName << " ["
 					<< station.getItemName() << "]" << endl;
 			}
 		}
 	}
-	
+	*/
+	void CustomerOrder::fillItem(Station& station, std::ostream& os) {
+
+		for (size_t i = 0; i < m_cntItem; i++) {
+			if (m_lstItem[i]->m_itemName == station.getItemName() && !m_lstItem[i]->m_isFilled) {
+				if (station.getQuantity() > 0) {
+					// Update the serial number, status, and quantity
+					m_lstItem[i]->m_serialNumber = station.getNextSerialNumber();
+					m_lstItem[i]->m_isFilled = true;
+					station.updateQuantity();
+					i = m_cntItem; // to stop printing
+					os << "    Filled " << m_name << ", " << m_orderName << " [" << station.getItemName() << "]" << endl;
+				}
+				else {
+					os << "    Unable to fill " << m_name << ", " << m_orderName << " [" << station.getItemName() << "]" << endl;
+				}
+			}
+		}
+	}
+
 	void CustomerOrder::display(std::ostream& os) const {
 		os << m_name << " - " << m_orderName << endl;
 			for (size_t i = 0; i < m_cntItem; i++) {
-				os << "[" << setw(6) << setfill('0') << m_lstItem[i]->m_serialNumber << "] "
+				os << "[" << setw(6) << right << setfill('0') << m_lstItem[i]->m_serialNumber << "] "
 					<< setw(m_widthField) << setfill(' ') << left << m_lstItem[i]->m_itemName << " - "; // m_widthField
 				m_lstItem[i]->m_isFilled ? os << "FILLED" : os << "TO BE FILLED";
 				os << endl;
