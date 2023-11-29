@@ -32,41 +32,6 @@ namespace sdds {
    + if there is no next station in the assembly line, then the order is moved into g_completed or g_incomplete queue
    + if an order has been moved, return true; false otherwise.
    */
-   /*
-   bool Workstation::attemptToMoveOrder() {
-      bool isMoved = false;
-     
-      if ("no more service at the station" || "cannot be filled (inventory <= a number)") {
-
-            if ("no next station"){
-               "move into g_completed or g_incomplete queue";
-               isMoved = true;
-            }
-            else {
-               "move to next station";
-               isMoved = true;
-            }
-            "remove(order_at_the_front)";
-      }
-     
-      if (!m_orders.empty() || getQuantity() < 1) {
-
-         if (!m_pNextStation) {
-            if (m_orders.front().isOrderFilled()) {
-               g_completed.push_back(move(m_orders.front()));
-            }
-            else {
-               g_incomplete.push_back(move(m_orders.front()));
-            }
-         }
-         else {
-            *m_pNextStation += move(m_orders.front()); // why do I need to have * in front of m_pNextStation
-         }
-         m_orders.pop_front(); //  "remove(order_at_the_front)";
-         isMoved = true;
-      }
-      return isMoved;
-   }*/
 
    bool Workstation::attemptToMoveOrder() {
       bool result = false;
@@ -85,7 +50,6 @@ namespace sdds {
             result = true;
          }
       }
-
       return result;
    }
 
@@ -125,7 +89,43 @@ namespace sdds {
       return *this;
    }
 
-
-
-
 }
+
+// UNUSED CODE:
+
+// WITH BUG
+/*
+   bool Workstation::attemptToMoveOrder() {
+      bool isMoved = false;
+
+      if ("no more service at the station" || "cannot be filled (inventory <= a number)") {
+
+            if ("no next station"){
+               "move into g_completed or g_incomplete queue";
+               isMoved = true;
+            }
+            else {
+               "move to next station";
+               isMoved = true;
+            }
+            "remove(order_at_the_front)";
+      }
+
+      if (!m_orders.empty() || getQuantity() < 1) {
+
+         if (!m_pNextStation) {
+            if (m_orders.front().isOrderFilled()) {
+               g_completed.push_back(move(m_orders.front()));
+            }
+            else {
+               g_incomplete.push_back(move(m_orders.front()));
+            }
+         }
+         else {
+            *m_pNextStation += move(m_orders.front()); // why do I need to have * in front of m_pNextStation
+         }
+         m_orders.pop_front(); //  "remove(order_at_the_front)";
+         isMoved = true;
+      }
+      return isMoved;
+   }*/

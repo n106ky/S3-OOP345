@@ -4,8 +4,6 @@
 // Date of completion   : NOV 27, 2023
 //
 // I confirm that I am the only author of this file and the content was created entirely by me.
-// (50% of LineManager constructor took referenced from github)
-
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -75,8 +73,8 @@ namespace sdds {
                      m_activeLine.back()->setNextStation(*nextItem);
                   }
 
-                  // find the first working station:
-                  auto firstws = std::find_if(stations.begin(), stations.end(), [&](Workstation* ws) { // if none_of is true, (= none_of them match is true), that means the first one is found.
+                  // finding the first working station:
+                  auto firstws = std::find_if(stations.begin(), stations.end(), [&](Workstation* ws) { // if none_of is true, (i.e. none_of them match is true), that means the first one is found.
                      return std::none_of(stations.begin(), stations.end(), [&](Workstation* other) {
                         return ws == other->getNextStation(); // if all false, none_of will return true. In this return statement, every one of them should return "false" for none_of to return true.
                         }); // if current ws match with the next station of the other ws
@@ -110,13 +108,14 @@ namespace sdds {
    }
 
    /*
-   * this modifier performs one iteration of operations on all of the workstations in the current assembly line by doing the following :
-      keeps track of the current iteration number (use a local variable)
-      inserts into stream os the iteration number (how many times this function has been called by the client) in the format Line Manager Iteration : COUNT<endl>
-      moves the order at the front of the g_pending queue to the m_firstStation and remove it from the queue.
-      This function moves only one order to the line on a single iteration.
-      for each station on the line, executes one fill operation
-      for each station on the line, attempts to move an order down the line
+   * This modifier performs one iteration of operations on all of the workstations in the current assembly line by doing the following :
+      + Keeps track of the current iteration number (use a local variable)
+      + Inserts into stream os the iteration number (how many times this function has been called by the client) in the format Line Manager Iteration : COUNT<endl>
+      + Moves the order at the front of the g_pending queue to the m_firstStation and remove it from the queue.
+      
+      + This function moves only one order to the line on a single iteration.
+         - for each station on the line, executes one fill operation
+         - for each station on the line, attempts to move an order down the line
       return true if all customer orders have been filled or cannot be filled, otherwise returns false.
    */
    bool LineManager::run(std::ostream& os) {
@@ -146,20 +145,6 @@ namespace sdds {
    }
 
     void LineManager::display(std::ostream& os) const {
-       /*
-       (Workstation* station): This is the parameter list of the lambda function. 
-       Each element of m_activeLine is passed to this lambda one by one during the iteration. 
-       Each element is a pointer to a Workstation object.
-
-        using "&" to capture the "os" by reference, it will be used for the display function.
-        the lambda can access and modify local variables of the enclosing scope
-        (in this case, os from the display function)
-
-        for_each(m_activeLine.begin(), m_activeLine.end(), [&](Workstation* station) {
-          station->display(os);
-          });
-       */
-
       for (auto& wstation : m_activeLine) {
          wstation->display(os);
       }
